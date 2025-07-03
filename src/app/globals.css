@@ -1,26 +1,30 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css");
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  --color-main_b: #156FF3;
+  --color-main_db: #1D67D5;
+  --color-main_r: #FF0011;
+  --color-ms_lb: #DCE6F6;
+  --color-ms_ob: #1D67D54D;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-sub_r: #F0635A;
+  --color-sub_o: #F59762;
+  --color-sub_b: #46CDFB;
+  --color-sub_green: #29D697;
+  --color-sub_g: #716E90;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-border_lg: #D8D8D8;
+  --color-text_b: #2D2626;
+  --color-text_g: #868686;
+  --color-bg: #F5F5F5;
+
+  --font-primary: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
+    Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo',
+    'Noto Sans KR', 'Malgun Gothic', sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-primary);
+  color: var(--color-text_b);
 }
