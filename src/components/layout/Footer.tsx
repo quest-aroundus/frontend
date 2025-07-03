@@ -26,7 +26,7 @@ const Footer = () => {
   const currentTab = pathname.split('/').pop() as CurrentTab;
 
   return (
-    <footer className='border-t border-t-border-md fixed w-full bottom-0 pt-[0.625rem] pb-11 px-[3.125rem]'>
+    <footer className='border-t min-w-80 border-t-border-md fixed w-full bottom-0 pt-[0.625rem] pb-11 px-[3.125rem]'>
       <div className='max-w-[35rem] mx-auto flex justify-between items-center'>
         <TabButton current={currentTab} name='event' />
         <TabButton current={currentTab} name='map' />
