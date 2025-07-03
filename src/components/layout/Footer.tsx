@@ -1,30 +1,36 @@
+"use client"
 import CalendarIcon from '@/app/assets/CalendarIcon';
-import CardIcon from '@/app/assets/CardIcon';
+import EventIcon from '@/app/assets/EventIcon';
 import MapIcon from '@/app/assets/MapIcon';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
-type CurrentTab = 'card' | 'map' | 'calendar'
+type CurrentTab = 'event' | 'map' | 'calendar'
 
-const TabButton = ({ current }: { current: CurrentTab }) => {
+const TabButton = ({ current, name }: { current: CurrentTab, name: CurrentTab }) => {
   const mappedIcons = {
-    'card': <CardIcon />,
+    'event': <EventIcon />,
     'map': <MapIcon />,
     'calendar': <CalendarIcon />
   }
-  const IconComponent = mappedIcons[current] || <CardIcon />
+  const IconComponent = mappedIcons[name] || <EventIcon />
   return (
-    <button className='text-ms_lb active:text-main_b cursor-pointer'>
+    <Link href={`/${name}`} className={`${current === name ? 'text-main_b' : 'text-ms_lb'} cursor-pointer`}>
       {IconComponent}
-    </button>
+    </Link>
   )
 }
 
 const Footer = () => {
+  const pathname = usePathname();
+  const currentTab = pathname.split('/').pop() as CurrentTab;
+
   return (
     <footer className='border-t border-t-border-md fixed w-full bottom-0 pt-[0.625rem] pb-11 px-[3.125rem]'>
       <div className='max-w-[35rem] mx-auto flex justify-between items-center'>
-        <TabButton current='card' />
-        <TabButton current='map' />
-        <TabButton current='calendar' />
+        <TabButton current={currentTab} name='event' />
+        <TabButton current={currentTab} name='map' />
+        <TabButton current={currentTab} name='calendar' />
       </div>
     </footer>
   )
