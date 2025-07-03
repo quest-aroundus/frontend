@@ -15,6 +15,7 @@
   --color-sub_g: #716E90;
 
   --color-border_lg: #D8D8D8;
+  --color-border-md: #D1D1D1;
   --color-text_b: #2D2626;
   --color-text_g: #868686;
   --color-bg: #F5F5F5;
@@ -27,4 +28,5 @@
 body {
   font-family: var(--font-primary);
   color: var(--color-text_b);
+  height: 100vh;
 }
