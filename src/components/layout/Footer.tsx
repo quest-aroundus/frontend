@@ -1,7 +1,7 @@
 "use client"
-import CalendarIcon from '@/app/assets/CalendarIcon';
-import EventIcon from '@/app/assets/EventIcon';
-import MapIcon from '@/app/assets/MapIcon';
+import CalendarIcon from '@/app/_assets/CalendarIcon';
+import EventIcon from '@/app/_assets/EventIcon';
+import MapIcon from '@/app/_assets/MapIcon';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -22,7 +22,7 @@ const TabButton = ({ current, name }: { current: CurrentTab, name: CurrentTab })
 }
 
 const Footer = () => {
-  const pathname = usePathname();
+  const pathname = usePathname() || '/';
   const currentTab = pathname.split('/').pop() as CurrentTab;
 
   return (
