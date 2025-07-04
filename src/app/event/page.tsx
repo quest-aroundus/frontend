@@ -1,5 +1,5 @@
 const ListPage = () => {
-  return (<main>list</main>)
+  return (<main>event</main>)
 }
 
 export default ListPage;

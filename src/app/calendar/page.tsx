@@ -1,5 +1,5 @@
-const ListPage = () => {
-  return (<main>list</main>)
+const CalendarPage = () => {
+  return (<main>calendar</main>)
 }
 
-export default ListPage;
+export default CalendarPage;

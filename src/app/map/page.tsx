@@ -1,5 +1,5 @@
-const ListPage = () => {
-  return (<main>list</main>)
+const MapPage = () => {
+  return (<main>map</main>)
 }
 
-export default ListPage;
+export default MapPage;
