@@ -4,6 +4,7 @@
 @theme {
   --color-main_b: #156FF3;
   --color-main_db: #1D67D5;
+  --color-main-lb: #E8F1FE;
   --color-main_r: #FF0011;
   --color-ms_lb: #DCE6F6;
   --color-ms_ob: #1D67D54D;
@@ -15,6 +16,7 @@
   --color-sub_g: #716E90;
 
   --color-border_lg: #D8D8D8;
+  --color-border_md: #D1D1D1;
   --color-text_b: #2D2626;
   --color-text_g: #868686;
   --color-bg: #F5F5F5;
@@ -27,4 +29,5 @@
 body {
   font-family: var(--font-primary);
   color: var(--color-text_b);
+  height: 100vh;
 }
