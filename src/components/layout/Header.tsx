@@ -3,7 +3,12 @@ import Logo from "@/app/_assets/Logo";
 import SettingsIcon from "@/app/_assets/SettingsIcon";
 import Link from "next/link";
 
-const HeaderButton = ({ type }: { type: "alarm" | "settings" | "main" }) => {
+type HeaderButtonType = "alarm" | "settings" | "main";
+interface HeaderButtonProps {
+  type: HeaderButtonType;
+}
+
+const HeaderButton = ({ type }: HeaderButtonProps) => {
   const link = {
     alarm: {
       href: "/alarm",
