@@ -31,3 +31,7 @@ body {
   color: var(--color-text_b);
   height: 100vh;
 }
+
+.max-width {
+  @apply max-w-[35rem] mx-auto
+}
