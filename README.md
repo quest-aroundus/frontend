@@ -1,4 +1,3 @@
-
 # Around-Us
 
 _Do you want to look for an event?_
@@ -13,6 +12,14 @@ To deploy this project run
   pnpm run dev // for dev
   pnpm run deploy // for deploy
   pnpm run test // for test
+```
+
+Docker build process
+
+```bash
+docker build -t aroundus/frontend -f deploy/Dockerfile . --platform linux/amd64
+docker tag aroundus/frontend ${image-registry}/${image-repository}:latest
+docker push ${image-registry}/${image-repository}:latest
 ```
 
 ## 🌱 Features

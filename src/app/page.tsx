@@ -1,5 +1,5 @@
+import { redirect } from "next/navigation";
+
 export default function Main() {
-  return (
-    <main></main>
-  );
+  redirect("/event");
 }
