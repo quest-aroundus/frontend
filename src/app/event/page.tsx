@@ -1,5 +1,11 @@
+import EventList from "@/components/event/EventList";
+
 const ListPage = () => {
-  return (<main>event</main>)
-}
+  return (
+    <main>
+      <EventList />
+    </main>
+  );
+};
 
 export default ListPage;
