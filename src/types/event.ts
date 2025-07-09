@@ -15,6 +15,8 @@ export interface EventSearchParams {
   event_size?: EventSize; // 이벤트 규모
   category_id?: number; // 카테고리 ID
   status?: string; // 이벤트 상태
+  limit?: number;
+  offset?: number;
 }
 
 // UI용 필터 옵션
@@ -43,8 +45,26 @@ export interface SelectedFilters {
 }
 
 // 이벤트 기본 타입
+export interface EventResponse {
+  id: number;
+  name: string;
+  description: string;
+  start_dt: string;
+  end_dt: string;
+  location_name: string;
+  location_address: string;
+  location_latitude: number;
+  location_longitude: number;
+  category_id: number;
+  event_size: EventSize;
+  thumbnail_url: string;
+  status: string;
+  language_code: string;
+  image_urls: string[];
+}
+
 export interface Event {
-  id: string;
+  id: number;
   title: string;
   description: string;
   start_dt: string;
@@ -54,8 +74,9 @@ export interface Event {
     longitude: number;
     address: string;
   };
-  category_id: number;
-  event_size: EventSize;
+  categoryId: number;
+  eventSize: EventSize;
   status: string;
-  imageUrl?: string;
+  thumbnailUrl: string;
+  imageUrls?: string[];
 }
