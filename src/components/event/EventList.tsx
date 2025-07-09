@@ -1,19 +1,14 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense } from "react";
 import EventFilter from "./EventFilter";
 import { useEvents } from "@/hooks/queries/useEvents";
-import { FilterOption } from "@/types/event";
 
 const EventListSkeleton = () => {
   return <div className="flex flex-col gap-4">로딩중</div>;
 };
 
 const EventList = () => {
-  const [selectedFilters, setSelectedFilters] = useState<FilterOption[]>([]);
-
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-
   // 이벤트 데이터 페칭
   const { data: events, isError } = useEvents();
 
@@ -21,16 +16,9 @@ const EventList = () => {
     throw new Error("이벤트를 불러오는데 실패했습니다.");
   }
 
-  const handleOpenFilter = () => {
-    setIsFilterOpen(true);
-  };
-
   return (
     <>
-      <EventFilter
-        selectedFilters={selectedFilters}
-        onOpenFilter={handleOpenFilter}
-      />
+      <EventFilter />
 
       {/* FIXME: 확인용 ai generated 이벤트 목록 */}
       <div className="flex flex-col gap-[0.625rem] bg-bg">

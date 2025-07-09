@@ -3,6 +3,8 @@ import MagnifyIcon from "@/app/_assets/MagnifyIcon";
 import PlusIcon from "@/app/_assets/PlusIcon";
 import { FilterOption } from "@/types/event";
 import IconWrapper from "@/components/common/IconWrapper";
+import EventFilterDialog from "./EventFilterDialog";
+import { useState } from "react";
 
 // 상수 정의
 const STYLES = {
@@ -92,26 +94,42 @@ const SearchButton = ({ isFilterEmpty, onOpenFilter }: SearchButtonProps) => {
 };
 
 // 메인 컴포넌트
-interface EventFilterProps {
-  selectedFilters: FilterOption[];
-  onOpenFilter: () => void;
-}
+const EventFilter = () => {
+  const [isFilterOpen, setIsFilterOpen] = useState<boolean | undefined>();
+  const [isSearchOpen, setIsSearchOpen] = useState<boolean | undefined>();
+  const [selectedFilters, setSelectedFilters] = useState<FilterOption[]>([]);
 
-const EventFilter = ({ selectedFilters, onOpenFilter }: EventFilterProps) => {
   const isFilterEmpty = selectedFilters.length === 0;
   const containerClass = `${STYLES.container} ${
     isFilterEmpty ? "text-main_b" : "text-white"
   }`;
 
+  const handleOpenFilter = () => {
+    setIsFilterOpen(true);
+  };
+
+  const handleOpenSearch = () => {
+    setIsSearchOpen(true);
+  };
+
   return (
-    <div className={containerClass}>
-      <FilterButton
-        selectedFilters={selectedFilters}
-        isFilterEmpty={isFilterEmpty}
-        onOpenFilter={onOpenFilter}
+    <>
+      <div className={containerClass}>
+        <FilterButton
+          selectedFilters={selectedFilters}
+          isFilterEmpty={isFilterEmpty}
+          onOpenFilter={handleOpenFilter}
+        />
+        <SearchButton
+          isFilterEmpty={isFilterEmpty}
+          onOpenFilter={handleOpenSearch}
+        />
+      </div>
+      <EventFilterDialog
+        isOpen={isFilterOpen}
+        onClose={() => setIsFilterOpen(false)}
       />
-      <SearchButton isFilterEmpty={isFilterEmpty} onOpenFilter={onOpenFilter} />
-    </div>
+    </>
   );
 };
 
