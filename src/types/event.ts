@@ -20,28 +20,22 @@ export interface EventSearchParams {
 }
 
 // UI용 필터 옵션
+export type FilterType = "scale" | "radius" | "category" | "date";
 export interface FilterOption {
   id: string;
   label: string;
   value: string | number;
-  category: "size" | "radius" | "category" | "status";
+  type: FilterType;
+  isDefault?: boolean;
 }
 
 // 선택된 필터들 (UI 상태 관리용)
 export interface SelectedFilters {
-  search: string;
-  dateRange: {
-    start?: Date;
-    end?: Date;
-  };
-  location: {
-    latitude?: number;
-    longitude?: number;
-    radius?: EventLocationRadius;
-  };
-  eventSize?: EventSize;
-  categoryId?: number;
-  status?: string;
+  search?: string;
+  date?: FilterOption;
+  scale?: FilterOption;
+  radius?: FilterOption;
+  category?: FilterOption;
 }
 
 // 이벤트 기본 타입

@@ -1,10 +1,11 @@
 import FilterIcon from "@/app/_assets/FilterIcon";
 import MagnifyIcon from "@/app/_assets/MagnifyIcon";
 import PlusIcon from "@/app/_assets/PlusIcon";
-import { FilterOption } from "@/types/event";
+import { FilterOption, SelectedFilters } from "@/types/event";
 import IconWrapper from "@/components/common/IconWrapper";
 import EventFilterDialog from "./EventFilterDialog";
 import { useState } from "react";
+import { useFilterStore } from "@/stores/useFilterStore";
 
 // 상수 정의
 const STYLES = {
@@ -38,7 +39,7 @@ const FilterTag = ({ filter }: FilterTagProps) => (
 
 // 필터 버튼 컴포넌트
 interface FilterButtonProps {
-  selectedFilters: FilterOption[];
+  selectedFilters: SelectedFilters;
   isFilterEmpty: boolean;
   onOpenFilter: () => void;
 }
@@ -59,9 +60,11 @@ const FilterButton = ({
       </IconWrapper>
 
       <div className={STYLES.filterContainer}>
-        {selectedFilters.map((filter) => (
-          <FilterTag key={filter.id} filter={filter} />
-        ))}
+        {Object.values(selectedFilters)
+          .filter((filter) => !!filter && !filter?.isDefault)
+          .map((filter) => (
+            <FilterTag key={filter.id} filter={filter} />
+          ))}
       </div>
 
       {isFilterEmpty && (
@@ -97,9 +100,9 @@ const SearchButton = ({ isFilterEmpty, onOpenFilter }: SearchButtonProps) => {
 const EventFilter = () => {
   const [isFilterOpen, setIsFilterOpen] = useState<boolean | undefined>();
   const [isSearchOpen, setIsSearchOpen] = useState<boolean | undefined>();
-  const [selectedFilters, setSelectedFilters] = useState<FilterOption[]>([]);
+  const { filters, hasActiveFilters } = useFilterStore();
 
-  const isFilterEmpty = selectedFilters.length === 0;
+  const isFilterEmpty = !hasActiveFilters();
   const containerClass = `${STYLES.container} ${
     isFilterEmpty ? "text-main_b" : "text-white"
   }`;
@@ -116,7 +119,7 @@ const EventFilter = () => {
     <>
       <div className={containerClass}>
         <FilterButton
-          selectedFilters={selectedFilters}
+          selectedFilters={filters}
           isFilterEmpty={isFilterEmpty}
           onOpenFilter={handleOpenFilter}
         />
