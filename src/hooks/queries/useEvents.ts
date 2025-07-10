@@ -17,7 +17,7 @@ export const fetchEvents = async (
   });
 
   const url = `${
-    process.env.NEXT_API_BASE_URL
+    process.env.NEXT_PUBLIC_API_BASE_URL
   }/event?${searchParams.toString()}`;
   const response = await fetch(url);
 

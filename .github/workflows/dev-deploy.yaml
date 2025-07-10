@@ -30,7 +30,7 @@ jobs:
       - name: Build and push Docker image to ECR
         env:
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
-          NEXT_API_BASE_URL: ${{ secrets.NEXT_API_BASE_URL }}
+          NEXT_PUBLIC_API_BASE_URL: ${{ secrets.NEXT_PUBLIC_API_BASE_URL }}
         run: |
           IMAGE_TAG=latest
           docker build -f deploy/Dockerfile -t $ECR_REPOSITORY:$IMAGE_TAG .
