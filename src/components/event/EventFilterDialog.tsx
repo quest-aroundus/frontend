@@ -63,7 +63,7 @@ const EventFilterDialog = ({ isOpen, onClose }: EventFilterDialogProps) => {
       {/* Bottom Sheet */}
       <div
         className={`
-        fixed bottom-0 left-0 right-0 z-50 h-[calc(100vh-3.75rem)] max-w-[35rem] mx-auto py-4 px-5 bg-white rounded-t-[0.625rem] transition-all duration-500 overflow-y-auto no-scrollbar ${
+        fixed bottom-0 left-0 right-0 z-50 h-[calc(100vh-3.75rem)] max-w-[35rem] mx-auto pb-4 px-5 bg-white rounded-t-[0.625rem] transition-all duration-500 overflow-y-auto no-scrollbar ${
           isOpen
             ? "slide-up"
             : isOpen === undefined
@@ -73,7 +73,7 @@ const EventFilterDialog = ({ isOpen, onClose }: EventFilterDialogProps) => {
       `}
       >
         <EventFilterDialogHeader onClose={onClose} />
-        <div className="flex flex-col gap-6 mt-6">
+        <div className="flex flex-col gap-6 mt-5">
           {["date", "category", "scale", "radius"].map((type, index, arr) => (
             <EventFilterOptions
               key={type}
