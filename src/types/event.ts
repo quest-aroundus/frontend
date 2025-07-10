@@ -46,6 +46,13 @@ export interface SelectedFilters {
   radius?: FilterOption;
   category?: FilterOption;
 }
+export interface EventQueryParams {
+  search?: string;
+  date?: "date_this_month" | "date_this_week" | "all";
+  scale?: "small" | "medium" | "large";
+  radius?: EventLocationRadius;
+  category?: number;
+}
 
 // 이벤트 기본 타입
 export interface EventResponse {

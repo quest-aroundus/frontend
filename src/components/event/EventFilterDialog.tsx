@@ -2,36 +2,34 @@
 
 import { useBodyScrollLockStore } from "@/stores/useBodyScrollLockStore";
 import { useFilterStore } from "@/stores/useFilterStore";
-import { Suspense, useEffect } from "react";
+import { useEffect } from "react";
 import BackgroundShade from "../common/BackgroundShade";
 import EventFilterOptions from "./EventFilterOptions";
 import { FilterType } from "@/types/event";
+import { getApiParamsFromFilterOptions } from "@/utils/filter";
+import { useRouter } from "next/navigation";
 
 interface EventFilterDialogHeaderProps {
   onClose: () => void;
 }
 
 const EventFilterDialogHeader = ({ onClose }: EventFilterDialogHeaderProps) => {
+  const router = useRouter();
+
   /** Filter Store */
-  const { resetFilters, getApiParams } = useFilterStore();
+  const { resetFilters } = useFilterStore();
 
   const handleReset = () => {
     resetFilters();
+    router.replace(`?${new URLSearchParams().toString()}`, { scroll: false });
   };
 
   return (
-    <div className="flex flex-row items-center justify-between w-full h-10 sticky top-0 bg-white">
+    <div className="flex flex-row items-center justify-between w-full h-10 pt-2 sticky top-0 bg-white">
       <button className="text-main_b cursor-pointer" onClick={onClose}>
         Close
       </button>
-      <h2
-        className="font-semibold"
-        onClick={() => {
-          console.log(getApiParams());
-        }}
-      >
-        Filter
-      </h2>
+      <h2 className="font-semibold">Filter</h2>
       <button className="text-main_b cursor-pointer" onClick={handleReset}>
         Reset
       </button>
@@ -47,6 +45,7 @@ interface EventFilterDialogProps {
 const EventFilterDialog = ({ isOpen, onClose }: EventFilterDialogProps) => {
   /** Body Scroll Lock */
   const { lock, unlock } = useBodyScrollLockStore();
+  const { _hasHydrated } = useFilterStore();
 
   useEffect(() => {
     if (isOpen) {
@@ -55,6 +54,11 @@ const EventFilterDialog = ({ isOpen, onClose }: EventFilterDialogProps) => {
       unlock();
     }
   }, [isOpen, lock, unlock]);
+
+  // 하이드레이션이 완료되지 않았다면 렌더링하지 않음
+  if (!_hasHydrated) {
+    return null;
+  }
 
   return (
     <>

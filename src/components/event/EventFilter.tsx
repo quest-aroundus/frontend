@@ -1,11 +1,18 @@
+"use client";
+
 import FilterIcon from "@/app/_assets/FilterIcon";
 import MagnifyIcon from "@/app/_assets/MagnifyIcon";
 import PlusIcon from "@/app/_assets/PlusIcon";
-import { FilterOption, SelectedFilters } from "@/types/event";
+import {
+  EventSearchParams,
+  FilterOption,
+  SelectedFilters,
+} from "@/types/event";
 import IconWrapper from "@/components/common/IconWrapper";
 import EventFilterDialog from "./EventFilterDialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFilterStore } from "@/stores/useFilterStore";
+import useCategories from "@/hooks/queries/useCategories";
 
 // 상수 정의
 const STYLES = {
@@ -96,13 +103,22 @@ const SearchButton = ({ isFilterEmpty, onOpenFilter }: SearchButtonProps) => {
   );
 };
 
+interface EventFilterProps {
+  searchParams: EventSearchParams;
+}
+
 // 메인 컴포넌트
-const EventFilter = () => {
+const EventFilter = ({ searchParams }: EventFilterProps) => {
   const [isFilterOpen, setIsFilterOpen] = useState<boolean | undefined>();
   const [isSearchOpen, setIsSearchOpen] = useState<boolean | undefined>();
-  const { filters, hasActiveFilters } = useFilterStore();
+  const { filters, hasActiveFilters, setFiltersWithSync, _hasHydrated } =
+    useFilterStore();
+  const { data: categories, isLoading: isCategoriesLoading } = useCategories();
 
-  const isFilterEmpty = !hasActiveFilters();
+  // 하이드레이션이 완료되지 않았다면 기본 상태로 렌더링
+  const isHydrated = _hasHydrated;
+  const isFilterEmpty = isHydrated ? !hasActiveFilters() : true;
+
   const containerClass = `${STYLES.container} ${
     isFilterEmpty ? "text-main_b" : "text-white"
   }`;
@@ -115,11 +131,23 @@ const EventFilter = () => {
     setIsSearchOpen(true);
   };
 
+  useEffect(() => {
+    if (isHydrated && !isCategoriesLoading && categories) {
+      setFiltersWithSync(searchParams, categories);
+    }
+  }, [
+    searchParams,
+    isCategoriesLoading,
+    categories,
+    isHydrated,
+    setFiltersWithSync,
+  ]);
+
   return (
     <>
       <div className={containerClass}>
         <FilterButton
-          selectedFilters={filters}
+          selectedFilters={isHydrated ? filters : {}}
           isFilterEmpty={isFilterEmpty}
           onOpenFilter={handleOpenFilter}
         />

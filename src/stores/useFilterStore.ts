@@ -1,13 +1,11 @@
 import { create } from "zustand";
-import { devtools } from "zustand/middleware";
+import { persist } from "zustand/middleware";
 import {
   SelectedFilters,
-  EventSearchParams,
   FilterType,
-  EventSize,
-  EventLocationRadius,
+  EventQueryParams,
+  FilterOption,
 } from "@/types/event";
-import { getDateRangeFromFilter } from "@/utils/date";
 import {
   CATEGORY_DEFAULT_FILTER,
   DATE_FILTERS,
@@ -18,15 +16,20 @@ import {
 interface FilterState {
   // 상태
   filters: SelectedFilters;
+  _hasHydrated: boolean;
 
   // 액션들
   setFilters: (filters: Partial<SelectedFilters>) => void;
+  setFiltersWithSync: (
+    filters: EventQueryParams,
+    categories: FilterOption[]
+  ) => void;
   resetFilters: () => void;
   setSearch: (search: string) => void;
+  setHasHydrated: (hasHydrated: boolean) => void;
 
   // 유틸리티
   getSelectedValue: (type: FilterType) => string | number;
-  getApiParams: () => EventSearchParams;
   hasActiveFilters: () => boolean;
 }
 
@@ -39,15 +42,39 @@ const initialFilters: SelectedFilters = {
 };
 
 export const useFilterStore = create<FilterState>()(
-  devtools(
+  persist(
     (set, get) => ({
       // 초기 상태
       filters: initialFilters,
+      _hasHydrated: false,
 
       // 필터 관련 액션들
       setFilters: (newFilters) =>
         set((state) => ({
           filters: { ...state.filters, ...newFilters },
+        })),
+
+      setFiltersWithSync: (newFilters, categories) =>
+        set((state) => ({
+          filters: {
+            search: newFilters.search || initialFilters.search,
+            date:
+              DATE_FILTERS.find(
+                (filter) => `${filter.value}` === `${newFilters.date}`
+              ) || initialFilters.date,
+            scale:
+              EVENT_SIZE_FILTERS.find(
+                (filter) => `${filter.value}` === `${newFilters.scale}`
+              ) || initialFilters.scale,
+            radius:
+              LOCATION_RADIUS_FILTERS.find(
+                (filter) => `${filter.value}` === `${newFilters.radius}`
+              ) || initialFilters.radius,
+            category:
+              categories.find(
+                (filter) => `${filter.value}` === `${newFilters.category}`
+              ) || initialFilters.category,
+          },
         })),
 
       resetFilters: () =>
@@ -60,28 +87,16 @@ export const useFilterStore = create<FilterState>()(
           filters: { ...state.filters, search },
         })),
 
+      setHasHydrated: (hasHydrated) =>
+        set({
+          _hasHydrated: hasHydrated,
+        }),
+
       // 선택된 필터 값 가져오기
       getSelectedValue: (type: FilterType) => {
         const { filters } = get();
         const selectedFilter = filters[type as keyof SelectedFilters];
-        return typeof selectedFilter === "object" ? selectedFilter.id : null;
-      },
-
-      // API 파라미터로 변환
-      getApiParams: (): EventSearchParams => {
-        const { filters } = get();
-        const dateRange = getDateRangeFromFilter(filters.date?.value as string);
-        return {
-          search: filters.search || undefined,
-          start_dt: dateRange.start || undefined,
-          end_dt: dateRange.end || undefined,
-          location_latitude: 0,
-          location_longitude: 0,
-          location_radius: filters.radius?.value as EventLocationRadius,
-          event_size: (filters.scale?.value as EventSize) || undefined,
-          category_id: (filters.category?.value as number) || undefined,
-          status: "",
-        };
+        return typeof selectedFilter === "object" ? selectedFilter.id : "";
       },
 
       // 활성 필터 여부 확인
@@ -98,6 +113,9 @@ export const useFilterStore = create<FilterState>()(
     }),
     {
       name: "filter-store",
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     }
   )
 );

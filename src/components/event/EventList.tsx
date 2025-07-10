@@ -3,14 +3,20 @@
 import { Suspense } from "react";
 import EventFilter from "./EventFilter";
 import { useEvents } from "@/hooks/queries/useEvents";
+import { EventQueryParams, EventSearchParams } from "@/types/event";
 
 const EventListSkeleton = () => {
   return <div className="flex flex-col gap-4">로딩중</div>;
 };
 
-const EventList = () => {
+interface EventListProps {
+  searchParams: EventQueryParams;
+  apiParams: EventSearchParams;
+}
+
+const EventList = ({ apiParams, searchParams }: EventListProps) => {
   // 이벤트 데이터 페칭
-  const { data: events, isError } = useEvents();
+  const { data: events, isError } = useEvents(apiParams);
 
   if (isError) {
     throw new Error("이벤트를 불러오는데 실패했습니다.");
@@ -18,7 +24,7 @@ const EventList = () => {
 
   return (
     <>
-      <EventFilter />
+      <EventFilter searchParams={searchParams} />
 
       {/* FIXME: 확인용 ai generated 이벤트 목록 */}
       <div className="flex flex-col gap-[0.625rem] bg-bg">
@@ -51,11 +57,11 @@ const EventList = () => {
   );
 };
 
-const SuspenseEventList = () => {
+const SuspenseEventList = ({ apiParams, searchParams }: EventListProps) => {
   return (
     <main className="flex flex-col">
       <Suspense fallback={<EventListSkeleton />}>
-        <EventList />
+        <EventList apiParams={apiParams} searchParams={searchParams} />
       </Suspense>
     </main>
   );

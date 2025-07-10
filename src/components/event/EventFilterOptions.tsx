@@ -6,6 +6,7 @@ import {
 import useCategories from "@/hooks/queries/useCategories";
 import { useFilterStore } from "@/stores/useFilterStore";
 import { FilterOption, FilterType } from "@/types/event";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface EventFilterOptionProps {
   type: FilterType;
@@ -14,24 +15,25 @@ interface EventFilterOptionProps {
 
 const EventFilterDialogOption = ({ type, option }: EventFilterOptionProps) => {
   const { setFilters, getSelectedValue } = useFilterStore();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const updateQuery = (key: string, value: string | null) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (value) {
+      params.set(key, value);
+    } else {
+      params.delete(key);
+    }
+    router.replace(`?${params.toString()}`, { scroll: false });
+  };
 
   const handleSelect = (option: FilterOption) => {
-    switch (type) {
-      case "date":
-        setFilters({ date: option });
-        break;
-      case "scale":
-        setFilters({ scale: option });
-        break;
-      case "radius":
-        setFilters({ radius: option });
-        break;
-      case "category":
-        setFilters({ category: option });
-        break;
-      default:
-        break;
-    }
+    const setFilterWithSync = (type: FilterType, option: FilterOption) => {
+      setFilters({ [type]: option });
+      updateQuery(type, option.value.toString());
+    };
+    setFilterWithSync(type, option);
   };
 
   return (
@@ -76,7 +78,7 @@ const EventFilterOptions = ({ type, isLast }: EventFilterOptionsProps) => {
 
   return (
     <>
-      <div className="flex flex-col gap-[0.625rem]">
+      <div className="flex flex-col gap-[0.625rem] p-5">
         <h3 className="font-semibold">{title[type]}</h3>
         {options[type]?.map((option) => (
           <EventFilterDialogOption
