@@ -1,0 +1,29 @@
+services:
+  frontend:
+    image: ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+    container_name: aroundus_frontend
+    expose:
+      - "3000"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - aroundus
+
+  nginx:
+    image: nginx:alpine
+    container_name: aroundus_nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./deploy/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - frontend
+    networks:
+      - aroundus
+      - aroundus_backend
+
+networks:
+  aroundus:
+    driver: bridge
+  aroundus_backend:
+    driver: external
