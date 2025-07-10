@@ -9,6 +9,7 @@ import {
 } from "@/types/event";
 import { getDateRangeFromFilter } from "@/utils/date";
 import {
+  CATEGORY_DEFAULT_FILTER,
   DATE_FILTERS,
   EVENT_SIZE_FILTERS,
   LOCATION_RADIUS_FILTERS,
@@ -34,7 +35,7 @@ const initialFilters: SelectedFilters = {
   date: DATE_FILTERS[0],
   scale: EVENT_SIZE_FILTERS[0],
   radius: LOCATION_RADIUS_FILTERS[0],
-  category: undefined,
+  category: CATEGORY_DEFAULT_FILTER,
 };
 
 export const useFilterStore = create<FilterState>()(
@@ -91,7 +92,7 @@ export const useFilterStore = create<FilterState>()(
           filters.date?.value !== initialFilters.date?.value ||
           filters.scale?.value !== initialFilters.scale?.value ||
           filters.radius?.value !== initialFilters.radius?.value ||
-          filters.category?.value !== undefined
+          filters.category?.value !== initialFilters.category?.value
         );
       },
     }),

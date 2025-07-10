@@ -4,6 +4,15 @@ export type EventSize = "small" | "medium" | "large";
 // 백엔드 API 기반 검색 반경 (km) 0이면 전체
 export type EventLocationRadius = 0 | 5 | 10 | 20;
 
+// 백엔드 API 기반 이벤트 카테골
+export interface EventCategory {
+  id: number;
+  slug: string;
+  name: string;
+  description: string;
+  language_code: string;
+}
+
 // 백엔드 API 검색 파라미터
 export interface EventSearchParams {
   search?: string; // 이벤트 이름/설명 검색

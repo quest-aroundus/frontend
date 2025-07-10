@@ -3,6 +3,7 @@ import {
   EVENT_SIZE_FILTERS,
   LOCATION_RADIUS_FILTERS,
 } from "@/constants/filters";
+import useCategories from "@/hooks/queries/useCategories";
 import { useFilterStore } from "@/stores/useFilterStore";
 import { FilterOption, FilterType } from "@/types/event";
 
@@ -24,6 +25,9 @@ const EventFilterDialogOption = ({ type, option }: EventFilterOptionProps) => {
         break;
       case "radius":
         setFilters({ radius: option });
+        break;
+      case "category":
+        setFilters({ category: option });
         break;
       default:
         break;
@@ -54,11 +58,13 @@ interface EventFilterOptionsProps {
 }
 
 const EventFilterOptions = ({ type, isLast }: EventFilterOptionsProps) => {
+  const { data: categories } = useCategories();
+
   const options = {
     date: DATE_FILTERS,
     scale: EVENT_SIZE_FILTERS,
     radius: LOCATION_RADIUS_FILTERS,
-    category: [],
+    category: categories,
   };
 
   const title = {
@@ -72,7 +78,7 @@ const EventFilterOptions = ({ type, isLast }: EventFilterOptionsProps) => {
     <>
       <div className="flex flex-col gap-[0.625rem]">
         <h3 className="font-semibold">{title[type]}</h3>
-        {options[type].map((option) => (
+        {options[type]?.map((option) => (
           <EventFilterDialogOption
             key={option.id}
             type={type}

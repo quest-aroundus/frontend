@@ -2,7 +2,7 @@
 
 import { useBodyScrollLockStore } from "@/stores/useBodyScrollLockStore";
 import { useFilterStore } from "@/stores/useFilterStore";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import BackgroundShade from "../common/BackgroundShade";
 import EventFilterOptions from "./EventFilterOptions";
 import { FilterType } from "@/types/event";

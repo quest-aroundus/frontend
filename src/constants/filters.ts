@@ -44,3 +44,11 @@ export const DATE_FILTERS: FilterOption[] = [
     value: "this_month",
   },
 ];
+
+export const CATEGORY_DEFAULT_FILTER: FilterOption = {
+  id: "all",
+  label: "Show all",
+  value: 0,
+  type: "category",
+  isDefault: true,
+};
