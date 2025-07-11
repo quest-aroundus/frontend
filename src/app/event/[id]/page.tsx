@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
 
+interface DetailPageProps {
+  params: Promise<{ id: string }>;
+}
+
 // 동적 메타데이터 생성 함수
 export async function generateMetadata({
   params,
-}: {
-  params: { id: string };
-}): Promise<Metadata> {
+}: DetailPageProps): Promise<Metadata> {
   // 실제로는 API에서 이벤트 데이터를 가져와야 합니다
   // 현재는 예시로 하드코딩된 데이터를 사용합니다
-  const eventId = params.id;
+  const { id: eventId } = await params;
 
   return {
     title: `이벤트 ${eventId} - AROUNDUS`,
@@ -27,10 +29,12 @@ export async function generateMetadata({
   };
 }
 
-const DetailPage = ({ params }: { params: { id: string } }) => {
+const DetailPage = async ({ params }: DetailPageProps) => {
+  const { id } = await params;
+
   return (
     <main>
-      <h1>이벤트 상세 - {params.id}</h1>
+      <h1>이벤트 상세 - {id}</h1>
       <p>이벤트 상세 정보가 여기에 표시됩니다.</p>
     </main>
   );
