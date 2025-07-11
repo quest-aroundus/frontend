@@ -6,7 +6,6 @@ import { useEffect } from "react";
 import BackgroundShade from "../common/BackgroundShade";
 import EventFilterOptions from "./EventFilterOptions";
 import { FilterType } from "@/types/event";
-import { getApiParamsFromFilterOptions } from "@/utils/filter";
 import { useRouter } from "next/navigation";
 
 interface EventFilterDialogHeaderProps {
@@ -66,15 +65,14 @@ const EventFilterDialog = ({ isOpen, onClose }: EventFilterDialogProps) => {
 
       {/* Bottom Sheet */}
       <div
-        className={`
-        fixed bottom-0 left-0 right-0 z-50 h-[calc(100vh-3.75rem)] max-w-[35rem] mx-auto pb-4 px-5 bg-white rounded-t-[0.625rem] transition-all duration-500 overflow-y-auto no-scrollbar ${
-          isOpen
-            ? "slide-up"
-            : isOpen === undefined
-            ? "translate-y-full"
-            : "slide-down"
-        }
-      `}
+        className={`fixed bottom-0 left-0 right-0 z-50 h-[calc(100vh-3.75rem)] max-w-[35rem] mx-auto pb-4 px-5 bg-white rounded-t-[0.625rem] transition-all duration-500 overflow-y-auto no-scrollbar
+          ${
+    isOpen
+      ? "slide-up"
+      : isOpen === undefined
+        ? "translate-y-full"
+        : "slide-down"
+    }`}
       >
         <EventFilterDialogHeader onClose={onClose} />
         <div className="flex flex-col gap-6 mt-5">

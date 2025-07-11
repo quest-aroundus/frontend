@@ -41,8 +41,8 @@ const EventList = ({ apiParams, searchParams }: EventListProps) => {
                   {event.eventSize === "small"
                     ? "소규모"
                     : event.eventSize === "medium"
-                    ? "중규모"
-                    : "대규모"}
+                      ? "중규모"
+                      : "대규모"}
                 </div>
               </div>
             </div>

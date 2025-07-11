@@ -19,17 +19,17 @@ interface FilterState {
   _hasHydrated: boolean;
 
   // 액션들
-  setFilters: (filters: Partial<SelectedFilters>) => void;
+  setFilters: (_filters: Partial<SelectedFilters>) => void;
   setFiltersWithSync: (
-    filters: EventQueryParams,
-    categories: FilterOption[]
+    _filters: EventQueryParams,
+    _categories: FilterOption[]
   ) => void;
   resetFilters: () => void;
-  setSearch: (search: string) => void;
-  setHasHydrated: (hasHydrated: boolean) => void;
+  setSearch: (_search: string) => void;
+  setHasHydrated: (_hasHydrated: boolean) => void;
 
   // 유틸리티
-  getSelectedValue: (type: FilterType) => string | number;
+  getSelectedValue: (_type: FilterType) => string | number;
   hasActiveFilters: () => boolean;
 }
 
@@ -113,8 +113,8 @@ export const useFilterStore = create<FilterState>()(
     }),
     {
       name: "filter-store",
-      onRehydrateStorage: () => (state) => {
-        state?.setHasHydrated(true);
+      onRehydrateStorage: () => (_state) => {
+        _state?.setHasHydrated(true);
       },
     }
   )
