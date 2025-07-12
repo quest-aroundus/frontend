@@ -34,7 +34,10 @@ jobs:
           NEXT_PUBLIC_MAPBOX_TOKEN: ${{ secrets.NEXT_PUBLIC_MAPBOX_TOKEN }}
         run: |
           IMAGE_TAG=latest
-          docker build -f deploy/Dockerfile -t $ECR_REPOSITORY:$IMAGE_TAG .
+          docker build -f deploy/Dockerfile \
+            --build-arg NEXT_PUBLIC_API_BASE_URL="${{ secrets.NEXT_PUBLIC_API_BASE_URL }}" \
+            --build-arg NEXT_PUBLIC_MAPBOX_TOKEN="${{ secrets.NEXT_PUBLIC_MAPBOX_TOKEN }}" \
+            -t $ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REPOSITORY:$IMAGE_TAG
 
       - name: Connect to EC2 and deploy
@@ -47,6 +50,8 @@ jobs:
             sudo bash -c '
                 aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY }}
                 cd /data/frontend
+                docker compose down
+                docker rmi $ECR_REPOSITORY:$IMAGE_TAG
                 docker compose pull frontend
                 docker compose up -d frontend
             '
