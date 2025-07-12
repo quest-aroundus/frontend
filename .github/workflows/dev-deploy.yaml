@@ -6,6 +6,8 @@ on:
     - closed
     branches:
     - main
+    paths:
+    - 'src/**'
   workflow_dispatch:
 
 jobs:
@@ -50,7 +52,7 @@ jobs:
             sudo bash -c '
                 aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY }}
                 cd /data/frontend
-                docker compose down
+                docker compose down frontend
                 docker rmi $ECR_REPOSITORY:$IMAGE_TAG
                 docker compose pull frontend
                 docker compose up -d frontend
