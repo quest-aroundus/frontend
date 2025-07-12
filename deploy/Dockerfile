@@ -9,6 +9,9 @@ RUN npm install -g pnpm
 WORKDIR /app
 
 ENV NODE_OPTIONS="--max-old-space-size=32768"
+ENV NEXT_PUBLIC_MAPBOX_TOKEN=${NEXT_PUBLIC_MAPBOX_TOKEN}
+ENV NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL}
+
 COPY . .
 RUN pnpm install
 RUN pnpm build
