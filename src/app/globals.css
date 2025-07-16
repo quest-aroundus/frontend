@@ -2,28 +2,28 @@
 @import "tailwindcss";
 
 @theme {
-  --color-main_b: #156FF3;
-  --color-main_db: #1D67D5;
-  --color-main_lb: #E8F1FE;
-  --color-main_r: #FF0011;
-  --color-ms_lb: #DCE6F6;
-  --color-ms_ob: #1D67D54D;
+  --color-main_b: #156ff3;
+  --color-main_db: #1d67d5;
+  --color-main_lb: #e8f1fe;
+  --color-main_r: #ff0011;
+  --color-ms_lb: #dce6f6;
+  --color-ms_ob: #1d67d54d;
 
-  --color-sub_r: #F0635A;
-  --color-sub_o: #F59762;
-  --color-sub_b: #46CDFB;
-  --color-sub_green: #29D697;
-  --color-sub_g: #716E90;
+  --color-sub_r: #f0635a;
+  --color-sub_o: #f59762;
+  --color-sub_b: #46cdfb;
+  --color-sub_green: #29d697;
+  --color-sub_g: #716e90;
 
-  --color-border_lg: #D8D8D8;
-  --color-border_md: #D1D1D1;
-  --color-text_b: #2D2626;
+  --color-border_lg: #d8d8d8;
+  --color-border_md: #d1d1d1;
+  --color-text_b: #2d2626;
   --color-text_g: #868686;
-  --color-bg: #F5F5F5;
+  --color-bg: #f5f5f5;
 
-  --font-primary: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
-    Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo',
-    'Noto Sans KR', 'Malgun Gothic', sans-serif;
+  --font-primary: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui,
+    Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR",
+    "Malgun Gothic", sans-serif;
 }
 
 body {
@@ -33,9 +33,48 @@ body {
 }
 
 .max-width {
-  @apply max-w-[35rem] mx-auto
+  @apply max-w-[35rem] mx-auto;
 }
 
 .height-without-layout {
   @apply h-[calc(100vh-6.25rem-5.875rem)];
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .slide-up {
+    animation: slideUp 0.3s ease-out forwards;
+  }
+
+  .slide-down {
+    animation: slideDown 0.3s ease-in forwards;
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+    }
+
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideDown {
+    from {
+      transform: translateY(0);
+    }
+
+    to {
+      transform: translateY(100%);
+    }
+  }
 }
