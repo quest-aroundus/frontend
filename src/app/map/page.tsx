@@ -1,8 +1,9 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { Suspense, useEffect, useState } from 'react';
-import { type Coordinate, useGeo } from '@/hooks/useGeo';
+import { Suspense } from 'react';
+import { useGeo } from '@/hooks/useGeo';
+import { useEvents } from '@/hooks/queries/useEvents';
 
 
 const MapboxMap = dynamic(() => import('@/components/MapboxMap'));
@@ -11,22 +12,14 @@ const MapSkeleton = () => (<div>로딩중...</div>)
 
 const MapPage = () => {
   const { location: currentLocation } = useGeo();
-  const [markers, setMarkers] = useState<Coordinate[]>([]);
 
-  useEffect(() => {
-    const loadMarkers = async () => {
-      // const data = await fetchLocations();
-      // setMarkers(data);
-    };
-    loadMarkers();
-  }, []);
-
+  const { data: events } = useEvents();
 
   return (
     <main className="relative w-full height-without-layout">
       <Suspense fallback={<MapSkeleton />}>
         {currentLocation && <MapboxMap
-          markers={markers}
+          markers={events}
           currentLocation={currentLocation}
         />}
       </Suspense>

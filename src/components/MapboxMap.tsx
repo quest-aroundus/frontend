@@ -4,10 +4,11 @@ import { useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import type { Coordinate } from '@/hooks/useGeo';
+import type { Event } from '@/types/event';
 import CurrentLocationIcon from '@/app/_assets/CurrentLocationIcon';
 
 interface MapboxProps {
-  markers: Coordinate[];
+  markers: Event[];
   currentLocation: Coordinate;
 };
 
@@ -26,12 +27,12 @@ const MapboxMap = ({ markers, currentLocation }: MapboxProps) => {
         zoom: 13,
       });
 
-      // // 🔵 API 마커들 찍기
-      // markers.forEach((marker) => {
-      //   new mapboxgl.Marker({ color: 'blue' })
-      //     .setLngLat([marker.longitude, marker.latitude])
-      //     .addTo(mapRef.current!);
-      // });
+      // 🔵 API 마커들 찍기
+      markers.forEach((marker) => {
+        new mapboxgl.Marker({ color: 'blue' })
+          .setLngLat([marker.location.longitude, marker.location.latitude])
+          .addTo(mapRef.current!);
+      });
 
       // 🔴 현재 위치 마커
       new mapboxgl.Marker({ color: 'red' })
