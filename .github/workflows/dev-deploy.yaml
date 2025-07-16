@@ -37,8 +37,8 @@ jobs:
         run: |
           IMAGE_TAG=latest
           docker build -f deploy/Dockerfile \
-            --build-arg NEXT_PUBLIC_API_BASE_URL="${{ secrets.NEXT_PUBLIC_API_BASE_URL }}" \
-            --build-arg NEXT_PUBLIC_MAPBOX_TOKEN="${{ secrets.NEXT_PUBLIC_MAPBOX_TOKEN }}" \
+            --build-arg api_base_url="${{ secrets.NEXT_PUBLIC_API_BASE_URL }}" \
+            --build-arg mapbox_token="${{ secrets.NEXT_PUBLIC_MAPBOX_TOKEN }}" \
             -t $ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REPOSITORY:$IMAGE_TAG
 
