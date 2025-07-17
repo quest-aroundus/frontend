@@ -1,4 +1,6 @@
 import {
+  InfiniteData,
+  useSuspenseInfiniteQuery,
   useSuspenseQuery,
   type UseSuspenseQueryOptions,
 } from "@tanstack/react-query";
@@ -61,4 +63,40 @@ export const eventOptions = (
 
 export const useEvents = (params?: EventSearchParams) => {
   return useSuspenseQuery(eventOptions(params));
+};
+
+export const eventInfiniteOptions = (
+  params: EventSearchParams = { limit: 10 }
+) => ({
+  queryKey: ["events-infinite", params],
+  queryFn: async ({ pageParam }: { pageParam: number }) => {
+    const response = await fetchEvents({
+      ...params,
+      offset: pageParam,
+      limit: 20,
+    });
+    return {
+      data: response.data.map((event) => transformEvent(event)),
+      previousOffset: response.pagination?.offset ?? 0,
+      nextOffset: response.pagination?.next_offset ?? 0,
+      total: response.pagination?.total ?? 0,
+      limit: response.pagination?.limit ?? 0,
+    };
+  },
+  getNextPageParam: function (lastPage: {
+    data: Event[];
+    previousOffset: number;
+    nextOffset: number;
+    total: number;
+    limit: number;
+  }) {
+    return lastPage.total > lastPage.nextOffset + lastPage.limit
+      ? lastPage.nextOffset + lastPage.limit
+      : null;
+  },
+  initialPageParam: 0,
+});
+
+export const useInfiniteEvents = (params?: EventSearchParams) => {
+  return useSuspenseInfiniteQuery(eventInfiniteOptions(params));
 };
