@@ -9,6 +9,6 @@ const MainLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
       <Footer />
     </>
   );
-}
+};
 
 export default MainLayout;

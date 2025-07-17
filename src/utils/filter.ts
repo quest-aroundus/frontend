@@ -4,8 +4,8 @@ import {
   EventSearchParams,
   EventSize,
   SelectedFilters,
-} from "@/types/event";
-import { getDateRangeFromFilter } from "./date";
+} from '@/types/event';
+import { getDateRangeFromFilter } from './date';
 
 export const getApiParamsFromFilterOptions = (
   filters: SelectedFilters
@@ -20,7 +20,7 @@ export const getApiParamsFromFilterOptions = (
     location_radius: filters.radius?.value as EventLocationRadius,
     event_size: (filters.scale?.value as EventSize) || undefined,
     category_id: (filters.category?.value as number) || undefined,
-    status: "",
+    status: '',
   };
 };
 
@@ -44,6 +44,6 @@ export const getApiParamsFromQueryParams = (
       searchParams.category !== undefined
         ? Number(searchParams.category)
         : undefined,
-    status: "",
+    status: '',
   };
 };

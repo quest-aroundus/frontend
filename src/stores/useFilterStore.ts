@@ -1,17 +1,17 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import {
   SelectedFilters,
   FilterType,
   EventQueryParams,
   FilterOption,
-} from "@/types/event";
+} from '@/types/event';
 import {
   CATEGORY_DEFAULT_FILTER,
   DATE_FILTERS,
   EVENT_SIZE_FILTERS,
   LOCATION_RADIUS_FILTERS,
-} from "@/constants/filters";
+} from '@/constants/filters';
 
 interface FilterState {
   // 상태
@@ -55,7 +55,7 @@ export const useFilterStore = create<FilterState>()(
         })),
 
       setFiltersWithSync: (newFilters, categories) =>
-        set((state) => ({
+        set((_state) => ({
           filters: {
             search: newFilters.search || initialFilters.search,
             date:
@@ -96,7 +96,7 @@ export const useFilterStore = create<FilterState>()(
       getSelectedValue: (type: FilterType) => {
         const { filters } = get();
         const selectedFilter = filters[type as keyof SelectedFilters];
-        return typeof selectedFilter === "object" ? selectedFilter.id : "";
+        return typeof selectedFilter === 'object' ? selectedFilter.id : '';
       },
 
       // 활성 필터 여부 확인
@@ -112,7 +112,7 @@ export const useFilterStore = create<FilterState>()(
       },
     }),
     {
-      name: "filter-store",
+      name: 'filter-store',
       onRehydrateStorage: () => (_state) => {
         _state?.setHasHydrated(true);
       },

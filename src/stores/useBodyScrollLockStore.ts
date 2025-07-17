@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 type BodyScrollLockStore = {
   isLocked: boolean;
@@ -9,11 +9,11 @@ type BodyScrollLockStore = {
 export const useBodyScrollLockStore = create<BodyScrollLockStore>((set) => ({
   isLocked: false,
   lock: () => {
-    document.body.style.overflow = "hidden"; // 스크롤 막기
+    document.body.style.overflow = 'hidden'; // 스크롤 막기
     set({ isLocked: true });
   },
   unlock: () => {
-    document.body.style.overflow = ""; // 스크롤 복구
+    document.body.style.overflow = ''; // 스크롤 복구
     set({ isLocked: false });
   },
 }));
