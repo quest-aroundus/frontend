@@ -1,9 +1,9 @@
 "use client";
 import { useQueryErrorResetBoundary } from "@tanstack/react-query";
-import { useEvents } from "@/hooks/queries/useEvents";
+import { useInfiniteEvents } from "@/hooks/queries/useEvents";
 
 const EventError = ({ error, reset }: { error: Error; reset: () => void }) => {
-  const { refetch } = useEvents();
+  const { refetch } = useInfiniteEvents();
   return (
     <div className="flex flex-col justify-center items-center p-8 gap-4">
       <div className="text-red-500">이벤트를 불러오는데 실패했습니다.</div>
