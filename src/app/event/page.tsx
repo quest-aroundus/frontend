@@ -1,11 +1,11 @@
-import SuspenseEventList from "@/components/event/EventList";
-import { eventOptions } from "@/hooks/queries/useEvents";
-import { getApiParamsFromQueryParams } from "@/utils/filter";
+import SuspenseEventList from '@/components/event/EventList';
+import { eventOptions } from '@/hooks/queries/useEvents';
+import { getApiParamsFromQueryParams } from '@/utils/filter';
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
-} from "@tanstack/react-query";
+} from '@tanstack/react-query';
 
 interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;

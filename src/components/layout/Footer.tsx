@@ -1,11 +1,11 @@
-"use client"
+'use client';
 import CalendarIcon from '@/app/_assets/CalendarIcon';
 import EventIcon from '@/app/_assets/EventIcon';
 import MapIcon from '@/app/_assets/MapIcon';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-type CurrentTab = 'event' | 'map' | 'calendar'
+type CurrentTab = 'event' | 'map' | 'calendar';
 
 interface TabButtonProps {
   current: CurrentTab;
@@ -16,15 +16,18 @@ const TabButton = ({ current, name }: TabButtonProps) => {
   const mappedIcons = {
     'event': <EventIcon />,
     'map': <MapIcon />,
-    'calendar': <CalendarIcon />
-  }
-  const IconComponent = mappedIcons[name] || <EventIcon />
+    'calendar': <CalendarIcon />,
+  };
+  const IconComponent = mappedIcons[name] || <EventIcon />;
   return (
-    <Link href={`/${name}`} className={`${current === name ? 'text-main_b' : 'text-ms_lb'} cursor-pointer`}>
+    <Link
+      href={`/${name}`}
+      className={`${current === name ? 'text-main_b' : 'text-ms_lb'} cursor-pointer`}
+    >
       {IconComponent}
     </Link>
-  )
-}
+  );
+};
 
 const Footer = () => {
   const pathname = usePathname() || '/';
@@ -38,7 +41,7 @@ const Footer = () => {
         <TabButton current={currentTab} name='calendar' />
       </div>
     </footer>
-  )
-}
+  );
+};
 
 export default Footer;

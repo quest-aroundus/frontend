@@ -1,11 +1,10 @@
 import {
-  InfiniteData,
   useSuspenseInfiniteQuery,
   useSuspenseQuery,
   type UseSuspenseQueryOptions,
-} from "@tanstack/react-query";
-import type { Event, EventResponse, EventSearchParams } from "@/types/event";
-import type { ApiResponse } from "@/types/response";
+} from '@tanstack/react-query';
+import type { Event, EventResponse, EventSearchParams } from '@/types/event';
+import type { ApiResponse } from '@/types/response';
 
 export const fetchEvents = async (
   params: EventSearchParams
@@ -13,7 +12,7 @@ export const fetchEvents = async (
   const searchParams = new URLSearchParams();
 
   Object.entries(params).forEach(([key, value]) => {
-    if (value !== undefined && value !== null && value !== "") {
+    if (value !== undefined && value !== null && value !== '') {
       searchParams.append(key, String(value));
     }
   });
@@ -22,7 +21,7 @@ export const fetchEvents = async (
   const response = await fetch(url);
 
   if (!response.ok) {
-    throw new Error("이벤트 데이터를 불러오는데 실패했습니다.");
+    throw new Error('이벤트 데이터를 불러오는데 실패했습니다.');
   }
   return response.json();
 };
@@ -54,7 +53,7 @@ export const eventOptions = (
   Event[],
   (string | EventSearchParams)[]
 > => ({
-  queryKey: ["events", params],
+  queryKey: ['events', params],
   queryFn: () => fetchEvents(params),
   select: (data: ApiResponse<EventResponse[]>) => {
     return data.data.map((event) => transformEvent(event));
@@ -68,7 +67,7 @@ export const useEvents = (params?: EventSearchParams) => {
 export const eventInfiniteOptions = (
   params: EventSearchParams = { limit: 10 }
 ) => ({
-  queryKey: ["events-infinite", params],
+  queryKey: ['events-infinite', params],
   queryFn: async ({ pageParam }: { pageParam: number }) => {
     const response = await fetchEvents({
       ...params,

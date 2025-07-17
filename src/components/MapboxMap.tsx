@@ -10,7 +10,7 @@ import CurrentLocationIcon from '@/app/_assets/CurrentLocationIcon';
 interface MapboxProps {
   markers: Event[];
   currentLocation: Coordinate;
-};
+}
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN!;
 
@@ -38,7 +38,6 @@ const MapboxMap = ({ markers, currentLocation }: MapboxProps) => {
       new mapboxgl.Marker({ color: 'red' })
         .setLngLat([currentLocation.longitude, currentLocation.latitude])
         .addTo(mapRef.current!);
-
     }
   }, []);
 
@@ -53,14 +52,16 @@ const MapboxMap = ({ markers, currentLocation }: MapboxProps) => {
     }
   };
 
-  return (<>
-    <div ref={mapContainerRef} className="w-full h-full" />
-    <button
-      onClick={moveToCurrentLocation}
-      className="absolute bottom-5 right-5 z-50 bg-white rounded-[0.625rem] h-14 w-14 shadow-[0px_0px_20px_0px_#716E90] border border-border_lg inline-flex items-center justify-center"
-    >
-      <CurrentLocationIcon />
-    </button>
-  </>)
+  return (
+    <>
+      <div ref={mapContainerRef} className='w-full h-full' />
+      <button
+        onClick={moveToCurrentLocation}
+        className='absolute bottom-5 right-5 z-50 bg-white rounded-[0.625rem] h-14 w-14 shadow-[0px_0px_20px_0px_#716E90] border border-border_lg inline-flex items-center justify-center'
+      >
+        <CurrentLocationIcon />
+      </button>
+    </>
+  );
 };
 export default MapboxMap;

@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
 import {
   defaultShouldDehydrateQuery,
   QueryClient,
   QueryClientProvider,
-} from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+} from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 interface QueryProviderProps {
   children: React.ReactNode;
@@ -26,14 +26,14 @@ function makeQueryClient() {
         // include pending queries in dehydration
         shouldDehydrateQuery: (query) =>
           defaultShouldDehydrateQuery(query) ||
-          query.state.status === "pending",
+          query.state.status === 'pending',
       },
     },
   });
 }
 
 function getQueryClient() {
-  if (typeof window === "undefined") {
+  if (typeof window === 'undefined') {
     // 서버에서는 항상 새로운 QueryClient 생성
     return makeQueryClient();
   } else {

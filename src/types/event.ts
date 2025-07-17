@@ -1,5 +1,5 @@
 // 백엔드 API 기반 이벤트 크기
-export type EventSize = "small" | "medium" | "large";
+export type EventSize = 'small' | 'medium' | 'large';
 
 // 백엔드 API 기반 검색 반경 (km) 0이면 전체
 export type EventLocationRadius = 0 | 5 | 10 | 20;
@@ -29,7 +29,7 @@ export interface EventSearchParams {
 }
 
 // UI용 필터 옵션
-export type FilterType = "scale" | "radius" | "category" | "date";
+export type FilterType = 'scale' | 'radius' | 'category' | 'date';
 export interface FilterOption {
   id: string;
   label: string;
@@ -48,8 +48,8 @@ export interface SelectedFilters {
 }
 export interface EventQueryParams {
   search?: string;
-  date?: "date_this_month" | "date_this_week" | "all";
-  scale?: "small" | "medium" | "large";
+  date?: 'date_this_month' | 'date_this_week' | 'all';
+  scale?: 'small' | 'medium' | 'large';
   radius?: EventLocationRadius;
   category?: number;
 }

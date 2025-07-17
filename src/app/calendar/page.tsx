@@ -1,5 +1,5 @@
 const CalendarPage = () => {
-  return (<main>calendar</main>)
-}
+  return <main>calendar</main>;
+};
 
 export default CalendarPage;

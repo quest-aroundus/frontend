@@ -7,10 +7,10 @@ export const getDateRangeFromFilter = (
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
   switch (filterValue) {
-  case "any":
+  case 'any':
     return {}; // 제한 없음
 
-  case "this_week":
+  case 'this_week':
     // 이번 주 월요일부터 일요일까지 (현재 타임존 기준)
     const startOfWeek = new Date(today);
     const dayOfWeek = today.getDay();
@@ -26,7 +26,7 @@ export const getDateRangeFromFilter = (
       end: endOfWeek.toISOString(),
     };
 
-  case "this_month":
+  case 'this_month':
     // 이번 달 1일부터 마지막 날까지 (현재 타임존 기준)
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
     const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);

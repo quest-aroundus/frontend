@@ -1,36 +1,36 @@
-"use client";
+'use client';
 
-import FilterIcon from "@/app/_assets/FilterIcon";
-import MagnifyIcon from "@/app/_assets/MagnifyIcon";
-import PlusIcon from "@/app/_assets/PlusIcon";
+import FilterIcon from '@/app/_assets/FilterIcon';
+import MagnifyIcon from '@/app/_assets/MagnifyIcon';
+import PlusIcon from '@/app/_assets/PlusIcon';
 import {
   EventSearchParams,
   FilterOption,
   SelectedFilters,
-} from "@/types/event";
-import IconWrapper from "@/components/common/IconWrapper";
-import EventFilterDialog from "./EventFilterDialog";
-import { useEffect, useState } from "react";
-import { useFilterStore } from "@/stores/useFilterStore";
-import useCategories from "@/hooks/queries/useCategories";
+} from '@/types/event';
+import IconWrapper from '@/components/common/IconWrapper';
+import EventFilterDialog from './EventFilterDialog';
+import { useEffect, useState } from 'react';
+import { useFilterStore } from '@/stores/useFilterStore';
+import useCategories from '@/hooks/queries/useCategories';
 
 // 상수 정의
 const STYLES = {
   container:
-    "flex self-stretch px-5 justify-center items-center gap-2.5 bg-white pb-2.5",
+    'flex self-stretch px-5 justify-center items-center gap-2.5 bg-white pb-2.5',
   button: {
-    base: "flex-1 h-[3.125rem] pl-1.5 py-2.5 rounded-[0.625rem] flex justify-between items-center gap-2 overflow-hidden cursor-pointer",
-    empty: "bg-bg text-main_b pr-2.5",
-    filled: "bg-main_b text-white",
+    base: 'flex-1 h-[3.125rem] pl-1.5 py-2.5 rounded-[0.625rem] flex justify-between items-center gap-2 overflow-hidden cursor-pointer',
+    empty: 'bg-bg text-main_b pr-2.5',
+    filled: 'bg-main_b text-white',
   },
   searchButton: {
-    base: "w-[3.125rem] h-[3.125rem] px-2.5 py-2.5 rounded-[0.625rem] flex justify-center items-center cursor-pointer",
-    empty: "bg-bg",
-    filled: "bg-main_b",
+    base: 'w-[3.125rem] h-[3.125rem] px-2.5 py-2.5 rounded-[0.625rem] flex justify-center items-center cursor-pointer',
+    empty: 'bg-bg',
+    filled: 'bg-main_b',
   },
   filterTag:
-    "min-w-fit h-8 px-2.5 border border-white bg-main_b rounded-[1.25rem] flex justify-center items-center text-xs whitespace-nowrap",
-  filterContainer: "w-full gap-2 flex overflow-x-auto pr-2.5 no-scrollbar",
+    'min-w-fit h-8 px-2.5 border border-white bg-main_b rounded-[1.25rem] flex justify-center items-center text-xs whitespace-nowrap',
+  filterContainer: 'w-full gap-2 flex overflow-x-auto pr-2.5 no-scrollbar',
 } as const;
 
 // 필터 태그 컴포넌트
@@ -62,7 +62,7 @@ const FilterButton = ({
 
   return (
     <button className={buttonClass} onClick={onOpenFilter}>
-      <IconWrapper size="sm">
+      <IconWrapper size='sm'>
         <FilterIcon />
       </IconWrapper>
 
@@ -75,7 +75,7 @@ const FilterButton = ({
       </div>
 
       {isFilterEmpty && (
-        <IconWrapper size="sm">
+        <IconWrapper size='sm'>
           <PlusIcon />
         </IconWrapper>
       )}
@@ -96,7 +96,7 @@ const SearchButton = ({ isFilterEmpty, onOpenFilter }: SearchButtonProps) => {
 
   return (
     <button onClick={onOpenFilter} className={buttonClass}>
-      <IconWrapper size="md">
+      <IconWrapper size='md'>
         <MagnifyIcon />
       </IconWrapper>
     </button>
@@ -110,7 +110,7 @@ interface EventFilterProps {
 // 메인 컴포넌트
 const EventFilter = ({ searchParams }: EventFilterProps) => {
   const [isFilterOpen, setIsFilterOpen] = useState<boolean | undefined>();
-  const [isSearchOpen, setIsSearchOpen] = useState<boolean | undefined>();
+  const [_isSearchOpen, setIsSearchOpen] = useState<boolean | undefined>();
   const { filters, hasActiveFilters, setFiltersWithSync, _hasHydrated } =
     useFilterStore();
   const { data: categories, isLoading: isCategoriesLoading } = useCategories();
@@ -120,7 +120,7 @@ const EventFilter = ({ searchParams }: EventFilterProps) => {
   const isFilterEmpty = isHydrated ? !hasActiveFilters() : true;
 
   const containerClass = `${STYLES.container} ${
-    isFilterEmpty ? "text-main_b" : "text-white"
+    isFilterEmpty ? 'text-main_b' : 'text-white'
   }`;
 
   const handleOpenFilter = () => {

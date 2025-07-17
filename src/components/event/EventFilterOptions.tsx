@@ -2,11 +2,11 @@ import {
   DATE_FILTERS,
   EVENT_SIZE_FILTERS,
   LOCATION_RADIUS_FILTERS,
-} from "@/constants/filters";
-import useCategories from "@/hooks/queries/useCategories";
-import { useFilterStore } from "@/stores/useFilterStore";
-import { FilterOption, FilterType } from "@/types/event";
-import { useRouter, useSearchParams } from "next/navigation";
+} from '@/constants/filters';
+import useCategories from '@/hooks/queries/useCategories';
+import { useFilterStore } from '@/stores/useFilterStore';
+import { FilterOption, FilterType } from '@/types/event';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface EventFilterOptionProps {
   type: FilterType;
@@ -41,14 +41,14 @@ const EventFilterDialogOption = ({ type, option }: EventFilterOptionProps) => {
       key={option.id}
       className={`flex items-center justify-between h-py-[1.875rem] transition-colors cursor-pointer ${
         getSelectedValue(type) === option.id
-          ? "text-main_b"
-          : "text-gray-700 hover:opacity-60 hover:text-main_b"
+          ? 'text-main_b'
+          : 'text-gray-700 hover:opacity-60 hover:text-main_b'
       }`}
       onClick={() => handleSelect(option)}
     >
       <span>{option.label}</span>
       {getSelectedValue(type) === option.id && (
-        <div className="w-3 h-3 bg-main_b rounded-full currentColor"></div>
+        <div className='w-3 h-3 bg-main_b rounded-full currentColor'></div>
       )}
     </button>
   );
@@ -70,16 +70,16 @@ const EventFilterOptions = ({ type, isLast }: EventFilterOptionsProps) => {
   };
 
   const title = {
-    date: "Date",
-    scale: "Scale",
-    radius: "Distance",
-    category: "Category",
+    date: 'Date',
+    scale: 'Scale',
+    radius: 'Distance',
+    category: 'Category',
   };
 
   return (
     <>
-      <div className="flex flex-col gap-[0.625rem] p-5">
-        <h3 className="font-semibold">{title[type]}</h3>
+      <div className='flex flex-col gap-[0.625rem] p-5'>
+        <h3 className='font-semibold'>{title[type]}</h3>
         {options[type]?.map((option) => (
           <EventFilterDialogOption
             key={option.id}
@@ -88,7 +88,7 @@ const EventFilterOptions = ({ type, isLast }: EventFilterOptionsProps) => {
           />
         ))}
       </div>
-      {!isLast && <div className="h-[1px] bg-gray-200"></div>}
+      {!isLast && <div className='h-[1px] bg-gray-200'></div>}
     </>
   );
 };

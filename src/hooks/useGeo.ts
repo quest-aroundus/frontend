@@ -24,7 +24,7 @@ export const useGeo = () => {
           setLocation({
             latitude: pos.coords.latitude,
             longitude: pos.coords.longitude,
-            id: 'current'
+            id: 'current',
           });
         },
         (err) => {

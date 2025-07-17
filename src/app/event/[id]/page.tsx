@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata } from 'next';
 
 interface DetailPageProps {
   params: Promise<{ id: string }>;
@@ -15,14 +15,14 @@ export async function generateMetadata({
   return {
     title: `이벤트 ${eventId} - AROUNDUS`,
     description: `이벤트 ${eventId}에 대한 상세 정보를 확인하세요.`,
-    keywords: ["이벤트", "모임", "활동"],
+    keywords: ['이벤트', '모임', '활동'],
     openGraph: {
       title: `이벤트 ${eventId}`,
       description: `이벤트 ${eventId}에 참여하세요!`,
-      type: "website",
+      type: 'website',
     },
     twitter: {
-      card: "summary",
+      card: 'summary',
       title: `이벤트 ${eventId}`,
       description: `이벤트 ${eventId}에 참여하세요!`,
     },
