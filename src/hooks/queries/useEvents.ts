@@ -1,9 +1,9 @@
 import {
   useSuspenseQuery,
-  UseSuspenseQueryOptions,
+  type UseSuspenseQueryOptions,
 } from "@tanstack/react-query";
-import { Event, EventResponse, EventSearchParams } from "@/types/event";
-import { ApiResponse } from "@/types/response";
+import type { Event, EventResponse, EventSearchParams } from "@/types/event";
+import type { ApiResponse } from "@/types/response";
 
 export const fetchEvents = async (
   params: EventSearchParams
@@ -16,9 +16,7 @@ export const fetchEvents = async (
     }
   });
 
-  const url = `${
-    process.env.NEXT_PUBLIC_API_BASE_URL
-  }/event?${searchParams.toString()}`;
+  const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/event?${searchParams.toString()}`;
   const response = await fetch(url);
 
   if (!response.ok) {

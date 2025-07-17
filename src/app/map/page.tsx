@@ -1,18 +1,30 @@
-"use client";
+'use client';
 
-import { useGeo } from '@/hooks/useGeo';
 import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
+import { useGeo } from '@/hooks/useGeo';
+import { useEvents } from '@/hooks/queries/useEvents';
 
-// 클라이언트 전용 Mapbox 컴포넌트 불러오기
+
 const MapboxMap = dynamic(() => import('@/components/MapboxMap'));
+
+const MapSkeleton = () => (<div>로딩중...</div>)
 
 const MapPage = () => {
   const { location: currentLocation } = useGeo();
+
+  const { data: events } = useEvents();
+
   return (
-    <main>
-      <MapboxMap latitude={currentLocation.latitude} longitude={currentLocation.longitude} />
+    <main className="relative w-full height-without-layout">
+      <Suspense fallback={<MapSkeleton />}>
+        {currentLocation && <MapboxMap
+          markers={events}
+          currentLocation={currentLocation}
+        />}
+      </Suspense>
     </main>
   );
-}
+};
 
-export default MapPage
+export default MapPage;
