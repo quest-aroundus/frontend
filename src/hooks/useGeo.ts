@@ -6,7 +6,7 @@ export interface Coordinate {
   id: string;
 }
 
-export const TORONTO_CITY_HALL: Coordinate = {
+const TORONTO_CITY_HALL: Coordinate = {
   latitude: 43.6532,
   longitude: -79.3832,
   id: 'toronto-city-hall',
@@ -20,7 +20,6 @@ export const useGeo = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
-          console.log('현재 위치 갱신됨:', pos.coords);
           setLocation({
             latitude: pos.coords.latitude,
             longitude: pos.coords.longitude,
@@ -28,8 +27,7 @@ export const useGeo = () => {
           });
         },
         (err) => {
-          console.error('현재 위치 요청 실패:', err);
-          setError('위치 권한이 필요합니다.');
+          setLocation(TORONTO_CITY_HALL);
         }
       );
     } else {

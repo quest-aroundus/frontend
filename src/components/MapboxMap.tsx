@@ -6,6 +6,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import type { Coordinate } from '@/hooks/useGeo';
 import type { Event } from '@/types/event';
 import CurrentLocationIcon from '@/app/_assets/CurrentLocationIcon';
+import Card from './map/Card';
 
 interface MapboxProps {
   markers: Event[];
@@ -55,12 +56,21 @@ const MapboxMap = ({ markers, currentLocation }: MapboxProps) => {
   return (
     <>
       <div ref={mapContainerRef} className='w-full h-full' />
-      <button
-        onClick={moveToCurrentLocation}
-        className='absolute bottom-5 right-5 z-50 bg-white rounded-[0.625rem] h-14 w-14 shadow-[0px_0px_20px_0px_#716E90] border border-border_lg inline-flex items-center justify-center'
-      >
-        <CurrentLocationIcon />
-      </button>
+      <section className='absolute bottom-5 right-5 z-50 w-full h-full inline-flex flex-col items-end justify-end gap-5'>
+        <button
+          onClick={moveToCurrentLocation}
+          className=' bg-white rounded-[0.625rem] h-14 w-14 shadow-[0px_0px_20px_0px_#716E90] border border-border_lg inline-flex items-center justify-center'
+        >
+          <CurrentLocationIcon />
+        </button>
+        <div className='inline-flex gap-2.5'>
+          {
+            markers.map((marker) => (
+              <Card item={marker} key={marker.id} />
+            ))
+          }
+        </div>
+      </section>
     </>
   );
 };
