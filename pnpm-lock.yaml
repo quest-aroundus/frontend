@@ -4,9 +4,9 @@ dependencies:
   '@fullcalendar/core':
     specifier: ^6.1.17
     version: 6.1.17
-  '@fullcalendar/daygrid':
-    specifier: ^6.1.17
-    version: 6.1.17(@fullcalendar/core@6.1.17)
+  '@fullcalendar/multimonth':
+    specifier: ^6.1.18
+    version: 6.1.18(@fullcalendar/core@6.1.17)
   '@fullcalendar/react':
     specifier: ^6.1.17
     version: 6.1.17(@fullcalendar/core@6.1.17)(react-dom@19.0.0)(react@19.0.0)
@@ -563,12 +563,21 @@ packages:
       preact: 10.12.1
     dev: false
 
-  /@fullcalendar/daygrid@6.1.17(@fullcalendar/core@6.1.17):
-    resolution: {integrity: sha512-K7m+pd7oVJ9fW4h7CLDdDGJbc9szJ1xDU1DZ2ag+7oOo1aCNLv44CehzkkknM6r8EYlOOhgaelxQpKAI4glj7A==}
+  /@fullcalendar/daygrid@6.1.18(@fullcalendar/core@6.1.17):
+    resolution: {integrity: sha512-s452Zle1SdMEzZDw+pDczm8m3JLIZzS9ANMThXTnqeqJewW1gqNFYas18aHypJSgF9Fh9rDJjTSUw04BpXB/Mg==}
     peerDependencies:
-      '@fullcalendar/core': ~6.1.17
+      '@fullcalendar/core': ~6.1.18
     dependencies:
       '@fullcalendar/core': 6.1.17
+    dev: false
+
+  /@fullcalendar/multimonth@6.1.18(@fullcalendar/core@6.1.17):
+    resolution: {integrity: sha512-4WSqtheJgWQMcJZjDDwTCYHe1JWTGZyJdCbIs84DuKbwZWH96g07Kr/3xDwsxiHgVX0iFlwljtkp2OmtMxQoDA==}
+    peerDependencies:
+      '@fullcalendar/core': ~6.1.18
+    dependencies:
+      '@fullcalendar/core': 6.1.17
+      '@fullcalendar/daygrid': 6.1.18(@fullcalendar/core@6.1.17)
     dev: false
 
   /@fullcalendar/react@6.1.17(@fullcalendar/core@6.1.17)(react-dom@19.0.0)(react@19.0.0):

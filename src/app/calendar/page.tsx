@@ -1,7 +1,7 @@
 import Calendar from '@/components/calendar/Calendar';
 
 const CalendarPage = () => {
-  return <main>
+  return <main className='height-without-layout'>
     <Calendar />
   </main>;
 };

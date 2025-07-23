@@ -1,13 +1,15 @@
 'use client';
 
 import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
+import multiMonthPlugin from '@fullcalendar/multimonth'
 
 const Calendar = () => {
   return (
     <FullCalendar
-      plugins={[dayGridPlugin]}
-      initialView="dayGridMonth"
+      plugins={[multiMonthPlugin]}
+      initialView="multiMonthYear"
+      height="100%"
+      fixedWeekCount={false}
     />
   )
 }
