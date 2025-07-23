@@ -3,7 +3,7 @@ import Skeleton from '../common/Skeleton';
 const CardSkeleton = () => {
   return (
     <aside className='flex bg-white w-[22.25rem] rounded-[10px] p-4 shadow-[0px_0px_10px_0px_#00000040]'>
-      <div>
+      <div className='mr-2.5'>
         <Skeleton className='w-[5.625rem] h-3' />
         <Skeleton className='w-[13.375rem] h-[1.375rem]' />
         <Skeleton className='w-[13.375rem] h-9' />
