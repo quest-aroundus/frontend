@@ -89,7 +89,7 @@ const MapboxMap = ({ markers, currentLocation }: MapboxProps) => {
       >
         <CurrentLocationIcon />
       </button>
-      <section className={`bottom-5 w-full flex overflow-x-auto scroll-smooth ${floatingClassName}`}>
+      <section className={`px-5 bottom-5 w-full flex overflow-x-auto scroll-smooth ${floatingClassName}`}>
         <div className='flex gap-2.5'>
           {
             markers.map((marker) => (

@@ -32,7 +32,7 @@ const Card = ({ item, selectedId, onSelect }: CardProps) => {
     <aside
       onClick={() => onSelect(item)}
       ref={cardRef}
-      className={`flex bg-white w-[22.25rem] rounded-[10px] p-4 shadow-[0px_0px_10px_0px_#00000040] ${item.id === selectedId ? 'border border-sub_b' : ''}`}
+      className={`cursor-pointer flex bg-white w-[22.25rem] rounded-[10px] p-4 shadow-[0px_0px_10px_0px_#00000040] ${item.id === selectedId ? 'border border-sub_b' : ''}`}
     >
       <div className='mr-2.5'>
         <time className='text-main_b text-xs'>{useFormatDate(item.start_dt)}~{useFormatDate(item.end_dt)}</time>
