@@ -63,7 +63,7 @@ const MapboxMap = ({ markers, currentLocation }: MapboxProps) => {
         >
           <CurrentLocationIcon />
         </button>
-        <div className='inline-flex gap-2.5'>
+        <div className='flex gap-2.5'>
           {
             markers.map((marker) => (
               <Card item={marker} key={marker.id} />

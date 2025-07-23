@@ -14,7 +14,8 @@ const Card = ({ item }: CardProps) => {
   }, [date]);
 
   return (
-    <aside className='flex bg-white border border-sub_b w-[22.25rem] rounded-[10px] p-4 shadow-[0px_0px_10px_0px_#00000040]'>
+    // border border-sub_b
+    <aside className='flex bg-white w-[22.25rem] rounded-[10px] p-4 shadow-[0px_0px_10px_0px_#00000040]'>
       <div>
         <time className='text-main_b text-xs'>{useFormatDate(item.start_dt)}~{useFormatDate(item.end_dt)}</time>
         <h1 className='text-text_b font-bold text-xl leading-6'>{item.title}</h1>

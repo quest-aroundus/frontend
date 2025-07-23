@@ -6,8 +6,7 @@ import { useGeo } from '@/hooks/useGeo';
 import { useEvents } from '@/hooks/queries/useEvents';
 
 const MapboxMap = dynamic(() => import('@/components/MapboxMap'));
-
-const MapSkeleton = () => <div>로딩중...</div>;
+const MapSkeleton = dynamic(() => import('@/components/map/MapSkeleton'));
 
 const MapPage = () => {
   const { location: currentLocation } = useGeo();
