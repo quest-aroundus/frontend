@@ -16,6 +16,7 @@ const MapPage = () => {
   return (
     <main className='relative w-full height-without-layout'>
       <Suspense fallback={<MapSkeleton />}>
+        {/* TODO: 스켈레톤 맵 전체로 확장 */}
         {currentLocation && (
           <MapboxMap markers={events} currentLocation={currentLocation} />
         )}
