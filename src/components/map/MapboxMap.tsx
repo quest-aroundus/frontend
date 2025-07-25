@@ -7,8 +7,8 @@ import mapboxgl, { type PointLike } from 'mapbox-gl';
 import type { Coordinate } from '@/hooks/useGeo';
 import type { Event } from '@/types/event';
 import CurrentLocationIcon from '@/app/_assets/CurrentLocationIcon';
-import Card from './map/Card';
-import CurrentMarker from './map/CurrentMarker';
+import Card from './Card';
+import CurrentMarker from './CurrentMarker';
 
 interface MapboxProps {
   markers: Event[];
