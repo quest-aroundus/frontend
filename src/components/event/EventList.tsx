@@ -54,7 +54,7 @@ const EventList = ({ apiParams, searchParams }: EventListProps) => {
           </div>
         )}
       </div>
-      <div ref={ref} className='h-[5.938rem]' />
+      <div ref={ref} />
     </>
   );
 };
