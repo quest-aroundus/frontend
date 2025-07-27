@@ -2,7 +2,7 @@
 
 import { useBodyScrollLockStore } from '@/stores/useBodyScrollLockStore';
 import { useFilterStore } from '@/stores/useFilterStore';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import BackgroundShade from '../common/BackgroundShade';
 import EventFilterOptions from './EventFilterOptions';
 import { FilterType } from '@/types/event';
@@ -23,8 +23,34 @@ const EventFilterDialogHeader = ({ onClose }: EventFilterDialogHeaderProps) => {
     router.replace(`?${new URLSearchParams().toString()}`, { scroll: false });
   };
 
+  const startYRef = useRef<number | null>(null);
+  const offsetYRef = useRef<number>(0);
+
+  const handleStartDrag = (e: React.TouchEvent) => {
+    const clientY = e.touches[0].clientY;
+    startYRef.current = clientY;
+  };
+  const handleDrag = (e: React.TouchEvent) => {
+    if (startYRef.current === null) return;
+    const clientY = e.touches[0].clientY;
+    const delta = clientY - startYRef.current;
+    if (delta > 0) offsetYRef.current = delta; // 아래로만 이동
+  };
+  const handleEndDrag = () => {
+    if (offsetYRef.current > 150) {
+      onClose(); // 150px 이상 내려가면 닫기
+    }
+    offsetYRef.current = 0;
+    startYRef.current = null;
+  };
+
   return (
-    <div className='flex flex-row items-center justify-between w-full h-10 pt-2 sticky top-0 bg-white'>
+    <div
+      className='flex flex-row items-center justify-between w-full h-10 pt-2 sticky top-0 bg-white'
+      onTouchStart={handleStartDrag}
+      onTouchMove={handleDrag}
+      onTouchEnd={handleEndDrag}
+    >
       <button className='text-main_b cursor-pointer' onClick={onClose}>
         Close
       </button>
@@ -67,12 +93,12 @@ const EventFilterDialog = ({ isOpen, onClose }: EventFilterDialogProps) => {
       <div
         className={`fixed bottom-0 left-0 right-0 z-50 h-[calc(100vh-3.75rem)] max-w-[35rem] mx-auto pb-4 px-5 bg-white rounded-t-[0.625rem] transition-all duration-500 overflow-y-auto no-scrollbar
           ${
-    isOpen
-      ? 'slide-up'
-      : isOpen === undefined
-        ? 'translate-y-full'
-        : 'slide-down'
-    }`}
+            isOpen
+              ? 'slide-up'
+              : isOpen === undefined
+                ? 'translate-y-full'
+                : 'slide-down'
+          }`}
       >
         <EventFilterDialogHeader onClose={onClose} />
         <div className='flex flex-col gap-6 mt-5'>
