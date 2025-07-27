@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { Event } from '@/types/event';
-import useCategories from '@/hooks/queries/useCategories';
 import { useMemo } from 'react';
 import LocationIcon from '@/app/_assets/LocationIcon';
 import LinkIcon from '@/app/_assets/LinkIcon';
@@ -57,7 +56,6 @@ const EventThumbnail = ({ event }: EventListItemProps) => {
   );
 };
 
-
 export const EventListItem = ({ event }: EventListItemProps) => {
   return (
     <div key={event.id} className='p-5 bg-white flex flex-col gap-[0.625rem]'>
@@ -74,8 +72,8 @@ export const EventListItem = ({ event }: EventListItemProps) => {
       </div>
 
       <div className='flex items-center gap-1'>
-        <LocationIcon className='text-main_b' />
-        <div>{event.location.address}</div>
+        <LocationIcon className='text-main_b self-start' />
+        <div className='text-sm'>{event.location.address}</div>
       </div>
     </div>
   );
