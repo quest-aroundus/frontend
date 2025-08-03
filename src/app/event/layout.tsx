@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 const EventLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className='flex flex-col h-fit'>
+    <div className='flex flex-col h-fit min-h-screen'>
       <MainLayout>{children}</MainLayout>
     </div>
   );
