@@ -32,6 +32,20 @@ const EventThumbnail = ({ event }: EventListItemProps) => {
     });
   }, [event.end_dt]);
 
+  const copyToClipboard = async (textToCopy: string) => {
+    try {
+      await navigator.clipboard.writeText(textToCopy);
+      alert('Link copied to clipboard');
+    } catch (err) {
+      prompt('Please copy the link manually', textToCopy);
+    }
+  };
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    copyToClipboard(`${window.location.origin}/event/${event.id}`);
+  };
+
   return (
     <div className='flex items-center gap-2 w-full h-[9.375rem] relative rounded-[0.625rem] overflow-hidden'>
       <div className='absolute top-[0.625rem] left-[0.625rem] w-[4.5rem] h-[3.125rem] p-[0.188rem] rounded-[0.438rem] bg-white opacity-70 flex flex-col items-center justify-center z-1'>
@@ -49,7 +63,10 @@ const EventThumbnail = ({ event }: EventListItemProps) => {
         priority
         className='object-cover'
       />
-      <button className='absolute top-[0.625rem] right-[0.625rem] w-[3.125rem] h-[3.125rem] p-[0.188rem] rounded-[0.438rem] bg-white opacity-70 flex flex-col items-center justify-center z-1'>
+      <button
+        onClick={handleClick}
+        className='absolute top-[0.625rem] right-[0.625rem] w-[3.125rem] h-[3.125rem] p-[0.188rem] rounded-[0.438rem] bg-white opacity-70 flex flex-col items-center justify-center z-1'
+      >
         <LinkIcon />
       </button>
     </div>
@@ -58,7 +75,11 @@ const EventThumbnail = ({ event }: EventListItemProps) => {
 
 export const EventListItem = ({ event }: EventListItemProps) => {
   return (
-    <div key={event.id} className='p-5 bg-white flex flex-col gap-[0.625rem]'>
+    <a
+      href={`/event/${event.id}`}
+      key={event.id}
+      className='p-5 bg-white flex flex-col gap-[0.625rem]'
+    >
       <EventThumbnail event={event} />
 
       <div>
@@ -75,6 +96,6 @@ export const EventListItem = ({ event }: EventListItemProps) => {
         <LocationIcon className='text-main_b self-start' />
         <div className='text-sm'>{event.location.address}</div>
       </div>
-    </div>
+    </a>
   );
 };
