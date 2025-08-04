@@ -13,13 +13,6 @@ const eslintConfig = [
   ...compat.extends('next/core-web-vitals', 'next/typescript', 'prettier'),
   {
     'rules': {
-      'indent': [
-        'error',
-        {
-          indent: 2,
-          switchCase: true,
-        },
-      ],
       'no-unused-vars': [
         'warn',
         {
