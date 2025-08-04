@@ -16,6 +16,7 @@
     "@fullcalendar/react": "^6.1.17",
     "@tanstack/react-query": "^5.81.5",
     "eslint-config-prettier": "^10.1.5",
+    "ics": "^3.8.1",
     "mapbox-gl": "^3.13.0",
     "next": "15.3.4",
     "prettier": "^3.6.2",
