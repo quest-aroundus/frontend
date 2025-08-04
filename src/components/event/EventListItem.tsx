@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import LocationIcon from '@/app/_assets/LocationIcon';
 import LinkIcon from '@/app/_assets/LinkIcon';
 import EventInfoChip from '../common/EventInfoChip';
+import { copyToClipboard } from '@/utils/common';
 
 interface EventListItemProps {
   event: Event;
@@ -31,15 +32,6 @@ const EventThumbnail = ({ event }: EventListItemProps) => {
       month: 'short',
     });
   }, [event.end_dt]);
-
-  const copyToClipboard = async (textToCopy: string) => {
-    try {
-      await navigator.clipboard.writeText(textToCopy);
-      alert('Link copied to clipboard');
-    } catch (err) {
-      prompt('Please copy the link manually', textToCopy);
-    }
-  };
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

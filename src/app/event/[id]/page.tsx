@@ -1,5 +1,6 @@
 import SuspenseEventDetail from '@/components/event/EventDetail';
 import type { Metadata } from 'next';
+import EventDetailHeader from '@/components/event/EventDetailHeader';
 
 interface DetailPageProps {
   params: Promise<{ id: string }>;
@@ -34,9 +35,12 @@ const DetailPage = async ({ params }: DetailPageProps) => {
   const { id } = await params;
 
   return (
-    <main className='flex flex-col flex-1 max-w-vw overflow-x-hidden'>
-      <SuspenseEventDetail id={id} />
-    </main>
+    <>
+      <EventDetailHeader id={id} />
+      <main className='flex flex-col flex-1 max-w-vw overflow-x-hidden h-full'>
+        <SuspenseEventDetail id={id} />
+      </main>
+    </>
   );
 };
 

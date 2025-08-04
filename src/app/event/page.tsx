@@ -1,4 +1,5 @@
 import SuspenseEventList from '@/components/event/EventList';
+import MainLayout from '@/components/layout/MainLayout';
 import { eventOptions } from '@/hooks/queries/useEvents';
 import { getApiParamsFromQueryParams } from '@/utils/filter';
 import {
@@ -19,12 +20,14 @@ const ListPage = async ({ searchParams }: PageProps) => {
   await queryClient.prefetchQuery(eventOptions(apiParams));
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <SuspenseEventList
-        apiParams={apiParams}
-        searchParams={resolvedSearchParams}
-      />
-    </HydrationBoundary>
+    <MainLayout>
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <SuspenseEventList
+          apiParams={apiParams}
+          searchParams={resolvedSearchParams}
+        />
+      </HydrationBoundary>
+    </MainLayout>
   );
 };
 
