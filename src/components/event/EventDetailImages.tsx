@@ -49,6 +49,9 @@ export const CarouselIndicator = ({
 export const EventDetailImages = ({ imageUrls }: { imageUrls?: string[] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
   if (!imageUrls || imageUrls.length === 0) {
     return (
       <div className='w-full h-[12.5rem] rounded-[0.625rem] overflow-hidden animate-pulse bg-bg_3' />
@@ -73,9 +76,6 @@ export const EventDetailImages = ({ imageUrls }: { imageUrls?: string[] }) => {
   };
 
   /** 스와이프 */
-  const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [touchEnd, setTouchEnd] = useState<number | null>(null);
-
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStart(e.targetTouches[0].clientX);
   };

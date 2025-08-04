@@ -5,9 +5,8 @@ const Skeleton = ({ className }: SkeletonProps) => {
   return (
     <div
       className={`animate-pulse bg-bg rounded-[0.313rem] ${className}`}
-    >
-    </div>
-  )
-}
+    ></div>
+  );
+};
 
 export default Skeleton;

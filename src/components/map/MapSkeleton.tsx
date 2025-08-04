@@ -10,7 +10,7 @@ const MapSkeleton = () => {
         </div>
       </section>
     </>
-  )
-}
+  );
+};
 
 export default MapSkeleton;

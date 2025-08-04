@@ -80,6 +80,12 @@ const EventFilterDialog = ({ isOpen, onClose }: EventFilterDialogProps) => {
     }
   }, [isOpen, lock, unlock]);
 
+  const getAnimationClass = (isOpen: boolean | undefined): string => {
+    if (isOpen) return 'slide-up';
+    if (isOpen === undefined) return 'translate-y-full';
+    return 'slide-down';
+  };
+
   // 하이드레이션이 완료되지 않았다면 렌더링하지 않음
   if (!_hasHydrated) {
     return null;
@@ -92,13 +98,7 @@ const EventFilterDialog = ({ isOpen, onClose }: EventFilterDialogProps) => {
       {/* Bottom Sheet */}
       <div
         className={`fixed bottom-0 left-0 right-0 z-50 h-[calc(100vh-3.75rem)] max-w-[35rem] mx-auto pb-4 px-5 bg-white rounded-t-[0.625rem] transition-all duration-500 overflow-y-auto no-scrollbar
-          ${
-            isOpen
-              ? 'slide-up'
-              : isOpen === undefined
-                ? 'translate-y-full'
-                : 'slide-down'
-          }`}
+          ${getAnimationClass(isOpen)}`}
       >
         <EventFilterDialogHeader onClose={onClose} />
         <div className='flex flex-col gap-6 mt-5'>
