@@ -1,4 +1,6 @@
+import SuspenseEventDetail from '@/components/event/EventDetail';
 import type { Metadata } from 'next';
+import EventDetailHeader from '@/components/event/EventDetailHeader';
 
 interface DetailPageProps {
   params: Promise<{ id: string }>;
@@ -13,8 +15,8 @@ export async function generateMetadata({
   const { id: eventId } = await params;
 
   return {
-    title: `이벤트 ${eventId} - AROUNDUS`,
-    description: `이벤트 ${eventId}에 대한 상세 정보를 확인하세요.`,
+    title: `이벤트 상세 - AROUNDUS`,
+    description: `이벤트 상세 정보를 확인하세요.`,
     keywords: ['이벤트', '모임', '활동'],
     openGraph: {
       title: `이벤트 ${eventId}`,
@@ -33,10 +35,12 @@ const DetailPage = async ({ params }: DetailPageProps) => {
   const { id } = await params;
 
   return (
-    <main>
-      <h1>이벤트 상세 - {id}</h1>
-      <p>이벤트 상세 정보가 여기에 표시됩니다.</p>
-    </main>
+    <>
+      <EventDetailHeader id={id} />
+      <main className='flex flex-col flex-1 max-w-vw overflow-x-hidden h-full'>
+        <SuspenseEventDetail id={id} />
+      </main>
+    </>
   );
 };
 

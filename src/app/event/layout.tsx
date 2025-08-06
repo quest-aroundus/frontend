@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import MainLayout from '@/components/layout/MainLayout';
 
 export const metadata: Metadata = {
   title: {
@@ -10,11 +9,7 @@ export const metadata: Metadata = {
 };
 
 const EventLayout = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <div className='flex flex-col h-fit'>
-      <MainLayout>{children}</MainLayout>
-    </div>
-  );
+  return <div className='flex flex-col h-fit min-h-screen'>{children}</div>;
 };
 
 export default EventLayout;

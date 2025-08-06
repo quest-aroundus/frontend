@@ -15,7 +15,7 @@ const CardSkeleton = () => {
       </div>
       <Skeleton className='w-[6.25rem] h-40 rounded-[0.625rem]' />
     </aside>
-  )
-}
+  );
+};
 
 export default CardSkeleton;

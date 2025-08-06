@@ -1,0 +1,21 @@
+{
+  "recommendations": [
+    "njpwerner.autodocstring",
+    "jasonmejane.base64viewer",
+    "aaron-bond.better-comments",
+    "jeff-hykin.better-shellscript-syntax",
+    "streetsidesoftware.code-spell-checker",
+    "naumovs.color-highlight",
+    "anseki.vscode-color",
+    "cschlosser.doxdocgen",
+    "mhutchie.git-graph",
+    "oderwat.indent-rainbow",
+    "meezilla.json",
+    "pkief.material-icon-theme",
+    "equinusocio.vsc-material-theme",
+    "ibm.output-colorizer",
+    "esbenp.prettier-vscode",
+    "SimonSiefke.svg-preview",
+    "lokalise.i18n-ally"
+  ]
+}

@@ -33,7 +33,7 @@ const HeaderButton = ({ type }: HeaderButtonProps) => {
 
 const Header = () => {
   return (
-    <header className='sticky z-10 w-full min-w-80 top-0 px-5 pt-[3.125rem] pb-[0.625rem] bg-white'>
+    <header className='sticky z-10 w-full top-0 px-5 pt-[3.125rem] pb-[0.625rem] bg-white'>
       <div className='flex justify-between items-center'>
         <HeaderButton type='alarm' />
         <HeaderButton type='main' />
