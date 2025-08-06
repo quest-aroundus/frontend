@@ -11,11 +11,17 @@ const EventDetailSkeleton = () => {
   return <div>Loading...</div>;
 };
 
-const EventDetailItem = ({ children }: { children: React.ReactNode }) => {
+const EventDetailItem = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
   return (
-    <div className='flex flex-col gap-5 h-fit bg-white px-5 py-3'>
+    <section className={`flex flex-col h-fit bg-white px-5 py-3 ${className}`}>
       {children}
-    </div>
+    </section>
   );
 };
 
@@ -23,18 +29,18 @@ const EventDetail = ({ id }: { id: string }) => {
   const { data: event } = useEvent(id);
 
   return (
-    <div className='flex flex-col gap-[0.625rem] h-fit bg-bg'>
-      <EventDetailItem>
+    <article className='flex flex-col gap-[0.625rem] h-fit bg-bg'>
+      <EventDetailItem className='gap-5'>
         <EventDetailImages imageUrls={event.imageUrls} />
 
-        <div className='flex flex-col gap-2'>
-          <div className='text-xl font-semibold'>{event.title}</div>
-        </div>
+        <header className='flex flex-col gap-2'>
+          <h1 className='text-xl font-semibold'>{event.title}</h1>
+        </header>
 
-        <div className='flex gap-2'>
+        <section className='flex gap-2'>
           <EventInfoChip type='category' value={event.categoryId} />
           <EventInfoChip type='eventSize' value={event.eventSize} />
-        </div>
+        </section>
 
         <EventDetailMetaInfo event={event}>
           <EventDetailMetaInfo.Date />
@@ -42,14 +48,12 @@ const EventDetail = ({ id }: { id: string }) => {
         </EventDetailMetaInfo>
       </EventDetailItem>
 
-      <EventDetailItem>
-        <div className='flex flex-col gap-2'>{event.description}</div>
-      </EventDetailItem>
+      <EventDetailItem className='gap-2'>{event.description}</EventDetailItem>
 
-      <EventDetailItem>
+      <EventDetailItem className='gap-2'>
         <EventDetailMapInfo event={event} />
       </EventDetailItem>
-    </div>
+    </article>
   );
 };
 

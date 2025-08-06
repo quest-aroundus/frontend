@@ -45,7 +45,7 @@ const EventDetailMapInfo = ({ event }: { event: Event }) => {
   };
 
   return (
-    <div className='flex flex-col gap-2'>
+    <>
       <div className='text-xl font-semibold'>위치</div>
       <div
         className='text-sm text-main_b flex flex-col gap-2'
@@ -54,7 +54,7 @@ const EventDetailMapInfo = ({ event }: { event: Event }) => {
         {event.location.address}
         <EventDetailMap event={event} />
       </div>
-    </div>
+    </>
   );
 };
 

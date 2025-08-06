@@ -29,7 +29,7 @@ const EventDetailInfoWrapper = ({
   onClick: () => void;
 }) => {
   return (
-    <div className='flex items-center justify-between'>
+    <section className='flex items-center justify-between'>
       <div className='flex items-start gap-2'>
         <span className='flex items-center justify-center text-[#B8B6C7]'>
           {icon}
@@ -42,7 +42,7 @@ const EventDetailInfoWrapper = ({
       >
         <RoundChevronIcon />
       </button>
-    </div>
+    </section>
   );
 };
 
