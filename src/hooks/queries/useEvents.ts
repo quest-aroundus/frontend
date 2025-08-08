@@ -42,6 +42,7 @@ export const transformEvent = (event: EventResponse): Event => {
     eventSize: event.event_size,
     status: event.status,
     thumbnailUrl: event.thumbnail_url,
+    imageUrls: event.images,
   };
 };
 

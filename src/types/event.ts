@@ -70,7 +70,7 @@ export interface EventResponse {
   thumbnail_url: string;
   status: string;
   language_code: string;
-  image_urls: string[];
+  images: string[];
 }
 
 export interface Event {

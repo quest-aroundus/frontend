@@ -10,14 +10,14 @@ import {
 } from '@/types/event';
 import IconWrapper from '@/components/common/IconWrapper';
 import EventFilterDialog from './EventFilterDialog';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useFilterStore } from '@/stores/useFilterStore';
 import useCategories from '@/hooks/queries/useCategories';
 
 // 상수 정의
 const STYLES = {
   container:
-    'flex self-stretch px-5 justify-center items-center gap-2.5 bg-white pb-2.5',
+    'sticky top-[6.25rem] flex self-stretch px-5 justify-center items-center gap-2.5 bg-white transition-opacity duration-200 z-20',
   button: {
     base: 'flex-1 h-[3.125rem] pl-1.5 py-2.5 rounded-[0.625rem] flex justify-between items-center gap-2 overflow-hidden cursor-pointer',
     empty: 'bg-bg text-main_b pr-2.5',
@@ -143,9 +143,34 @@ const EventFilter = ({ searchParams }: EventFilterProps) => {
     setFiltersWithSync,
   ]);
 
+  const prevScrollY = useRef(0);
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY <= prevScrollY.current || currentScrollY < 160) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+      prevScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener('scroll', onScroll);
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, []);
+
   return (
     <>
-      <div className={containerClass}>
+      <div
+        className={`${containerClass} ${
+          isVisible ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
         <FilterButton
           selectedFilters={isHydrated ? filters : {}}
           isFilterEmpty={isFilterEmpty}

@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import { Event } from '@/types/event';
-import useCategories from '@/hooks/queries/useCategories';
 import { useMemo } from 'react';
 import LocationIcon from '@/app/_assets/LocationIcon';
 import LinkIcon from '@/app/_assets/LinkIcon';
 import EventInfoChip from '../common/EventInfoChip';
+import { copyToClipboard } from '@/utils/common';
 
 interface EventListItemProps {
   event: Event;
@@ -33,6 +33,11 @@ const EventThumbnail = ({ event }: EventListItemProps) => {
     });
   }, [event.end_dt]);
 
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    copyToClipboard(`${window.location.origin}/event/${event.id}`);
+  };
+
   return (
     <div className='flex items-center gap-2 w-full h-[9.375rem] relative rounded-[0.625rem] overflow-hidden'>
       <div className='absolute top-[0.625rem] left-[0.625rem] w-[4.5rem] h-[3.125rem] p-[0.188rem] rounded-[0.438rem] bg-white opacity-70 flex flex-col items-center justify-center z-1'>
@@ -50,17 +55,23 @@ const EventThumbnail = ({ event }: EventListItemProps) => {
         priority
         className='object-cover'
       />
-      <button className='absolute top-[0.625rem] right-[0.625rem] w-[3.125rem] h-[3.125rem] p-[0.188rem] rounded-[0.438rem] bg-white opacity-70 flex flex-col items-center justify-center z-1'>
+      <button
+        onClick={handleClick}
+        className='absolute top-[0.625rem] right-[0.625rem] w-[3.125rem] h-[3.125rem] p-[0.188rem] rounded-[0.438rem] bg-white opacity-70 flex flex-col items-center justify-center z-1'
+      >
         <LinkIcon />
       </button>
     </div>
   );
 };
 
-
 export const EventListItem = ({ event }: EventListItemProps) => {
   return (
-    <div key={event.id} className='p-5 bg-white flex flex-col gap-[0.625rem]'>
+    <a
+      href={`/event/${event.id}`}
+      key={event.id}
+      className='p-5 bg-white flex flex-col gap-[0.625rem]'
+    >
       <EventThumbnail event={event} />
 
       <div>
@@ -74,9 +85,9 @@ export const EventListItem = ({ event }: EventListItemProps) => {
       </div>
 
       <div className='flex items-center gap-1'>
-        <LocationIcon className='text-main_b' />
-        <div>{event.location.address}</div>
+        <LocationIcon className='text-main_b self-start' />
+        <div className='text-sm'>{event.location.address}</div>
       </div>
-    </div>
+    </a>
   );
 };

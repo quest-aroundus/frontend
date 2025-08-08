@@ -38,7 +38,7 @@ const MapboxMap = ({ markers, currentLocation }: MapboxProps) => {
 
     // 🔴 현재 위치 마커
 
-    const markerContainer = document.createElement("div");
+    const markerContainer = document.createElement('div');
     const root = createRoot(markerContainer);
     root.render(<CurrentMarker />);
     new mapboxgl.Marker(markerContainer)
@@ -49,7 +49,8 @@ const MapboxMap = ({ markers, currentLocation }: MapboxProps) => {
     // 🔵 API 마커들 찍기
     markers.forEach((marker) => {
       const mapboxMarker = new mapboxgl.Marker({ color: 'blue' })
-        .setLngLat([marker.location.longitude, marker.location.latitude]).setOffset(offset)
+        .setLngLat([marker.location.longitude, marker.location.latitude])
+        .setOffset(offset)
         .addTo(mapRef.current!);
 
       mapboxMarker.getElement().addEventListener('click', () => {
@@ -77,7 +78,7 @@ const MapboxMap = ({ markers, currentLocation }: MapboxProps) => {
     }
   };
 
-  const floatingClassName = 'absolute z-50'
+  const floatingClassName = 'absolute z-50';
 
   return (
     <>
@@ -88,16 +89,16 @@ const MapboxMap = ({ markers, currentLocation }: MapboxProps) => {
       >
         <CurrentLocationIcon />
       </button>
-      {selectedId && <section className={`bottom-5 w-full flex justify-center ${floatingClassName}`}>
-        {
-          markers.map((marker) => (
-            selectedId === marker.id && <Card
-              item={marker}
-              key={marker.id}
-            />
-          ))
-        }
-      </section>}
+      {selectedId && (
+        <section
+          className={`bottom-5 w-full flex justify-center ${floatingClassName}`}
+        >
+          {markers.map(
+            (marker) =>
+              selectedId === marker.id && <Card item={marker} key={marker.id} />
+          )}
+        </section>
+      )}
     </>
   );
 };
