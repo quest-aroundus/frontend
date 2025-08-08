@@ -6,6 +6,7 @@ import { addMonths, startOfMonth, format, differenceInMonths } from 'date-fns';
 import 'react-day-picker/dist/style.css';
 import CalendarWeekday from '@/components/calendar/CalendarWeekday';
 import DropdownIcon from '../_assets/DropdownIcon';
+import { useEvents } from '@/hooks/queries/useEvents';
 
 const ScrollableCalendar = () => {
   // ① 시작 달(1월로 렌더될 달)을 고정해야 index 계산이 정확해짐
@@ -14,6 +15,7 @@ const ScrollableCalendar = () => {
   const [centerMonth, setCenterMonth] = useState<Date>(baseMonth);
   const [ready, setReady] = useState(false); // 첫 페인트 전에 숨겨두기
   const today = format(new Date(), 'dd');
+  const { data: events } = useEvents();
 
   const containerRef = useRef<HTMLDivElement>(null);
   const MONTH_TO_SHOW = 12;
@@ -104,7 +106,8 @@ const ScrollableCalendar = () => {
             numberOfMonths={MONTH_TO_SHOW}
             classNames={{
               months: 'flex flex-col gap-2.5 items-center',
-              month: 'm-0 py-11 shadow-[0px_10px_34px_0px_#0000000F]',
+              month:
+                'm-0 py-11 shadow-[0px_10px_34px_0px_#0000000F] w-[19.5rem]',
               month_caption: 'hidden',
               nav: 'hidden',
             }}
