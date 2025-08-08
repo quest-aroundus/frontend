@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { DayPicker } from 'react-day-picker';
 import { addMonths, startOfMonth, format, differenceInMonths } from 'date-fns';
 import 'react-day-picker/dist/style.css';
@@ -8,11 +8,11 @@ import CalendarWeekday from '@/components/calendar/CalendarWeekday';
 import DropdownIcon from '../_assets/DropdownIcon';
 
 const ScrollableCalendar = () => {
-  // ① 시작 달(1월로 렌더될 달)을 우리가 고정해야 index 계산이 정확해짐
+  // ① 시작 달(1월로 렌더될 달)을 고정해야 index 계산이 정확해짐
   const baseMonth = startOfMonth(new Date(new Date().getFullYear(), 0, 1));
   // ② 스크롤 가운데에 가장 가까운 달
   const [centerMonth, setCenterMonth] = useState<Date>(baseMonth);
-  const [ready, setReady] = useState(false); // ← 첫 페인트 전에 숨겨두기
+  const [ready, setReady] = useState(false); // 첫 페인트 전에 숨겨두기
   const today = format(new Date(), 'dd');
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -23,9 +23,7 @@ const ScrollableCalendar = () => {
     const container = containerRef.current;
     if (!container) return;
 
-    const monthEls = container.querySelectorAll<HTMLElement>(
-      '.rdp-month_grid, .rdp-month'
-    );
+    const monthEls = container.querySelectorAll<HTMLElement>('.rdp-month_grid');
     if (!monthEls.length) return;
 
     const safeIdx = Math.min(Math.max(idx, 0), monthEls.length - 1);
@@ -72,7 +70,7 @@ const ScrollableCalendar = () => {
     scrollToMonthIndex(idx);
   };
 
-  // ✅ 첫 렌더: 보이지 않게 렌더 → 즉시(자동) 스크롤 → 보이기
+  // 보이지 않게 렌더 → 즉시(자동) 스크롤 → 보이기
   useLayoutEffect(() => {
     const idx = differenceInMonths(startOfMonth(new Date()), baseMonth);
     scrollToMonthIndex(idx, false); // 애니메이션 없이 즉시 위치
