@@ -1,24 +1,39 @@
 'use client';
 
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { DayPicker } from 'react-day-picker';
 import { addMonths, startOfMonth, format, differenceInMonths } from 'date-fns';
 import 'react-day-picker/dist/style.css';
-import CalendarWeekday from '@/components/calendar/CalendarWeekday';
+import Weekday from '@/components/calendar/Weekday';
 import DropdownIcon from '../_assets/DropdownIcon';
 import { useEvents } from '@/hooks/queries/useEvents';
+import type { Event } from '@/types/event';
+import Card from '@/components/map/Card';
+import Day from '@/components/calendar/Day';
+import MobileCard from '@/components/calendar/MobileCard';
 
 const ScrollableCalendar = () => {
+  const today = format(new Date(), 'dd');
   // ① 시작 달(1월로 렌더될 달)을 고정해야 index 계산이 정확해짐
   const baseMonth = startOfMonth(new Date(new Date().getFullYear(), 0, 1));
   // ② 스크롤 가운데에 가장 가까운 달
-  const [centerMonth, setCenterMonth] = useState<Date>(baseMonth);
+  const [centerMonth, setCenterMonth] = useState<Date>(() =>
+    startOfMonth(new Date())
+  );
   const [ready, setReady] = useState(false); // 첫 페인트 전에 숨겨두기
-  const today = format(new Date(), 'dd');
-  const { data: events } = useEvents();
+  const [selectedDateEvents, setSelectedDateEvents] = useState<Event[]>([]);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const MONTH_TO_SHOW = 12;
+
+  const params = useMemo(() => {
+    return {
+      limit: 100,
+      start_dt: format(centerMonth, 'yyyy-MM-dd'),
+      end_dt: format(addMonths(centerMonth, MONTH_TO_SHOW), 'yyyy-MM-dd'),
+    };
+  }, [centerMonth]);
+  const { data: events } = useEvents(params);
 
   // 특정 인덱스의 달을 컨테이너 중앙으로 스크롤
   const scrollToMonthIndex = (idx: number, smooth = true) => {
@@ -72,6 +87,18 @@ const ScrollableCalendar = () => {
     scrollToMonthIndex(idx);
   };
 
+  const handleEvent = (day: Date) => {
+    const key = format(day, 'yyyy-MM-dd');
+    const dayEvents =
+      events?.filter((e) => {
+        const sKey = e.start_dt.split('T')[0];
+        const tKey = e.end_dt.split('T')[0];
+        return key >= sKey && key <= tKey; // 날짜 범위 안에 있으면 포함
+      }) || [];
+
+    return dayEvents.length > 0 ? dayEvents : [];
+  };
+
   // 보이지 않게 렌더 → 즉시(자동) 스크롤 → 보이기
   useLayoutEffect(() => {
     const idx = differenceInMonths(startOfMonth(new Date()), baseMonth);
@@ -79,9 +106,13 @@ const ScrollableCalendar = () => {
     setReady(true); // 이제 보여줌
   }, []);
 
+  const handleDayClick = (day: Date) => {
+    setSelectedDateEvents(handleEvent(day));
+  };
+
   return (
-    <div className='height-without-layout flex justify-center'>
-      <div>
+    <div className='height-without-layout flex justify-center flex-col tablet:flex-row'>
+      <div className='max-w-[25.125rem] w-full'>
         <div className='h-[3.125rem] flex justify-between px-5 items-center'>
           <button className='cursor-pointer inline-flex items-center text-2xl text-text_b font-semibold'>
             {ready && format(centerMonth, 'MMMM yyyy')}
@@ -107,16 +138,43 @@ const ScrollableCalendar = () => {
             classNames={{
               months: 'flex flex-col gap-2.5 items-center',
               month:
-                'm-0 py-11 shadow-[0px_10px_34px_0px_#0000000F] w-[19.5rem]',
+                'm-0 py-11 shadow-[0px_10px_34px_0px_#0000000F] w-[95%] max-w-[25.125rem] tablet:w-full',
               month_caption: 'hidden',
               nav: 'hidden',
+              month_grid: 'rdp-month_grid w-full h-[19.5rem]',
+              day: 'relative text-center',
+              day_button: 'mx-auto',
             }}
+            showOutsideDays={false}
             components={{
-              Weekdays: () => <CalendarWeekday />,
+              Weekdays: () => <Weekday />,
+              Day: ({ day }) => {
+                if (day.outside) return <td></td>;
+                return (
+                  <Day
+                    date={day.date}
+                    events={handleEvent(day.date)}
+                    onClick={(date) => handleDayClick(date)}
+                  />
+                );
+              },
             }}
           />
         </div>
       </div>
+      {selectedDateEvents.length > 0 && (
+        <section className='tablet:flex tablet:justify-end tablet:w-1/2 tablet:height-without-layout tablet:overflow-y-scroll '>
+          <div className='block  overflow-hidden absolute bottom-[5.938rem] left-0 right-0 overflow-x-auto tablet:hidden'>
+            <MobileCard events={selectedDateEvents} />
+          </div>
+
+          <div className='hidden tablet:py-5 tablet:pr-5 tablet:flex tablet:justify-center tablet:items-center tablet:flex-col tablet:gap-5 tablet:static h-fit'>
+            {selectedDateEvents.map((event) => (
+              <Card key={event.id} item={event} />
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 };
