@@ -163,8 +163,8 @@ const ScrollableCalendar = () => {
         </div>
       </div>
       {selectedDateEvents.length > 0 && (
-        <section className='tablet:flex tablet:justify-end tablet:w-1/2 tablet:height-without-layout tablet:overflow-y-scroll '>
-          <div className='block  overflow-hidden absolute bottom-[5.938rem] left-0 right-0 overflow-x-auto tablet:hidden'>
+        <section className='tablet:flex tablet:justify-end tablet:w-1/2 tablet:height-without-layout tablet:overflow-y-scroll'>
+          <div className='block overflow-hidden absolute bottom-[5.5rem] left-0 right-0 overflow-x-hidden tablet:hidden'>
             <MobileCard events={selectedDateEvents} />
           </div>
 
