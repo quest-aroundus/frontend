@@ -54,7 +54,7 @@ const MapboxMap = ({ markers, currentLocation }: MapboxProps) => {
         .addTo(mapRef.current!);
 
       mapboxMarker.getElement().addEventListener('click', () => {
-        setSelectedId(marker.id);
+        setSelectedId((prevId) => (prevId === +marker.id ? null : marker.id));
       });
 
       // 마우스 커서 변경
@@ -65,7 +65,7 @@ const MapboxMap = ({ markers, currentLocation }: MapboxProps) => {
         mapboxMarker.getElement().style.cursor = '';
       });
     });
-  }, []);
+  }, [markers, selectedId]);
 
   // 📍 버튼 클릭 시 현재 위치로 이동
   const moveToCurrentLocation = () => {
