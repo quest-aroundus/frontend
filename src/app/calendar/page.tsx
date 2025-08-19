@@ -26,13 +26,14 @@ const ScrollableCalendar = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const MONTH_TO_SHOW = 12;
 
-  const params = useMemo(() => {
-    return {
+  const params = useMemo(
+    () => ({
       limit: 100,
       start_dt: format(centerMonth, 'yyyy-MM-dd'),
       end_dt: format(addMonths(centerMonth, MONTH_TO_SHOW), 'yyyy-MM-dd'),
-    };
-  }, [centerMonth]);
+    }),
+    [centerMonth]
+  );
   const { data: events } = useEvents(params);
 
   // 특정 인덱스의 달을 컨테이너 중앙으로 스크롤
@@ -122,9 +123,9 @@ const ScrollableCalendar = () => {
           </button>
           <button
             onClick={handleToday}
-            className='cursor-pointer inline-flex rounded-full w-9 h-9 border border-text-b items-center justify-center'
+            className='cursor-pointer inline-flex rounded-xl w-9 h-9 border border-text-b items-center justify-center'
           >
-            {today}
+            today
           </button>
         </div>
         <div
@@ -154,7 +155,7 @@ const ScrollableCalendar = () => {
                   <Day
                     date={day.date}
                     events={handleEvent(day.date)}
-                    onClick={(date) => handleDayClick(date)}
+                    onClick={handleDayClick}
                   />
                 );
               },
