@@ -13,7 +13,6 @@ import Day from '@/components/calendar/Day';
 import MobileCard from '@/components/calendar/MobileCard';
 
 const ScrollableCalendar = () => {
-  const today = format(new Date(), 'dd');
   // ① 시작 달(1월로 렌더될 달)을 고정해야 index 계산이 정확해짐
   const baseMonth = startOfMonth(new Date(new Date().getFullYear(), 0, 1));
   // ② 스크롤 가운데에 가장 가까운 달
