@@ -54,7 +54,7 @@ const MapboxMap = ({ markers, currentLocation }: MapboxProps) => {
         .addTo(mapRef.current!);
 
       mapboxMarker.getElement().addEventListener('click', () => {
-        setSelectedId((prevId) => (prevId === +marker.id ? null : marker.id));
+        setSelectedId((prevId) => (prevId === marker.id ? null : marker.id));
       });
 
       // 마우스 커서 변경
