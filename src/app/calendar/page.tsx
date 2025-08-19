@@ -2,7 +2,14 @@
 
 import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { DayPicker } from 'react-day-picker';
-import { addMonths, startOfMonth, format, differenceInMonths } from 'date-fns';
+import {
+  addMonths,
+  startOfMonth,
+  format,
+  differenceInMonths,
+  subYears,
+  addYears,
+} from 'date-fns';
 import 'react-day-picker/dist/style.css';
 import Weekday from '@/components/calendar/Weekday';
 import DropdownIcon from '../_assets/DropdownIcon';
@@ -13,29 +20,45 @@ import Day from '@/components/calendar/Day';
 import MobileCard from '@/components/calendar/MobileCard';
 
 const ScrollableCalendar = () => {
-  // ① 시작 달(1월로 렌더될 달)을 고정해야 index 계산이 정확해짐
-  const baseMonth = startOfMonth(new Date(new Date().getFullYear(), 0, 1));
-  // ② 스크롤 가운데에 가장 가까운 달
-  const [centerMonth, setCenterMonth] = useState<Date>(() =>
+  const initialYear = new Date().getFullYear();
+  const [startYear, setStartYear] = useState(initialYear);
+  const [endYear, setEndYear] = useState(initialYear);
+  const [centerMonth, setCenterMonth] = useState(() =>
     startOfMonth(new Date())
   );
-  const [ready, setReady] = useState(false); // 첫 페인트 전에 숨겨두기
   const [selectedDateEvents, setSelectedDateEvents] = useState<Event[]>([]);
+  const [ready, setReady] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const MONTH_TO_SHOW = 12;
+  const MONTH_TO_SHOW = (endYear - startYear + 1) * 12;
 
-  const params = useMemo(
-    () => ({
+  const baseMonth = startOfMonth(new Date(startYear, 0, 1));
+
+  const params = useMemo(() => {
+    return {
       limit: 100,
       start_dt: format(centerMonth, 'yyyy-MM-dd'),
-      end_dt: format(addMonths(centerMonth, MONTH_TO_SHOW), 'yyyy-MM-dd'),
-    }),
-    [centerMonth]
-  );
-  const { data: events } = useEvents(params);
+      end_dt: format(addMonths(centerMonth, 12), 'yyyy-MM-dd'),
+    };
+  }, [centerMonth]);
 
-  // 특정 인덱스의 달을 컨테이너 중앙으로 스크롤
+  const { data: events = [] } = useEvents(params);
+
+  const handleEvent = (day: Date) => {
+    const key = format(day, 'yyyy-MM-dd');
+    return (
+      events?.filter((e) => {
+        const sKey = e.start_dt.split('T')[0];
+        const tKey = e.end_dt.split('T')[0];
+        return key >= sKey && key <= tKey;
+      }) || []
+    );
+  };
+
+  const handleDayClick = (day: Date) => {
+    setSelectedDateEvents(handleEvent(day));
+  };
+
   const scrollToMonthIndex = (idx: number, smooth = true) => {
     const container = containerRef.current;
     if (!container) return;
@@ -48,32 +71,56 @@ const ScrollableCalendar = () => {
     const top =
       target.offsetTop - (container.clientHeight - target.clientHeight) / 2;
 
-    const prevBehavior = (container.style as any).scrollBehavior;
-    (container.style as any).scrollBehavior = smooth ? 'smooth' : 'auto';
+    const prevBehavior = container.style.scrollBehavior;
+    container.style.scrollBehavior = smooth ? 'smooth' : 'auto';
     container.scrollTo({ top });
-    (container.style as any).scrollBehavior = prevBehavior ?? '';
+    container.style.scrollBehavior = prevBehavior ?? '';
 
     setCenterMonth(addMonths(baseMonth, safeIdx));
   };
 
   const handleScroll = () => {
-    if (!containerRef.current) return;
     const container = containerRef.current;
+    if (!container) return;
+
     const monthEls = container.querySelectorAll<HTMLElement>('.rdp-month_grid');
     if (!monthEls.length) return;
 
-    const containerCenterY = container.scrollTop + container.clientHeight / 2;
-    const cRect = container.getBoundingClientRect();
+    const scrollTop = container.scrollTop;
+    const scrollHeightBefore = container.scrollHeight;
+    const clientHeight = container.clientHeight;
 
-    let centerIdx = 0; // 현재까지 가장 가까운 달 index
-    let minimumDist = Number.POSITIVE_INFINITY; // 현재까지 가장 가까운 거리, 어떤 수와 비교해도 무조건 작아짐. 반복문 첫 번째애서 무조건 갱신되도록 하는 장치
+    const threshold = 50;
+
+    if (scrollTop < threshold) {
+      const prevYear = startYear - 1;
+      setStartYear(prevYear);
+
+      // ✅ DOM 변화를 감지한 후 scrollTop 보정
+      const observer = new MutationObserver(() => {
+        observer.disconnect();
+        const newScrollHeight = container.scrollHeight;
+        const addedHeight = newScrollHeight - scrollHeightBefore;
+        container.scrollTop = scrollTop + addedHeight;
+      });
+
+      observer.observe(container, { childList: true, subtree: true });
+    } else if (scrollTop + clientHeight > container.scrollHeight - threshold) {
+      setEndYear(endYear + 1);
+    }
+
+    // 중심 월 계산
+    const containerCenterY = scrollTop + clientHeight / 2;
+    const cRect = container.getBoundingClientRect();
+    let centerIdx = 0;
+    let minDist = Infinity;
 
     monthEls.forEach((el, idx) => {
       const r = el.getBoundingClientRect();
-      const elCenterY = r.top - cRect.top + container.scrollTop + r.height / 2;
+      const elCenterY = r.top - cRect.top + scrollTop + r.height / 2;
       const dist = Math.abs(elCenterY - containerCenterY);
-      if (dist < minimumDist) {
-        minimumDist = dist;
+      if (dist < minDist) {
+        minDist = dist;
         centerIdx = idx;
       }
     });
@@ -82,33 +129,24 @@ const ScrollableCalendar = () => {
   };
 
   const handleToday = () => {
-    // baseMonth(1월) 기준 오늘까지의 월 차이 → 오늘이 속한 달 인덱스
-    const idx = differenceInMonths(startOfMonth(new Date()), baseMonth);
-    scrollToMonthIndex(idx);
+    const now = new Date();
+    const newStartYear = now.getFullYear();
+    setStartYear(newStartYear);
+    setEndYear(newStartYear);
+
+    requestAnimationFrame(() => {
+      const idx = differenceInMonths(
+        startOfMonth(now),
+        startOfMonth(new Date(newStartYear, 0, 1))
+      );
+      scrollToMonthIndex(idx, false);
+    });
   };
 
-  const handleEvent = (day: Date) => {
-    const key = format(day, 'yyyy-MM-dd');
-    const dayEvents =
-      events?.filter((e) => {
-        const sKey = e.start_dt.split('T')[0];
-        const tKey = e.end_dt.split('T')[0];
-        return key >= sKey && key <= tKey; // 날짜 범위 안에 있으면 포함
-      }) || [];
-
-    return dayEvents.length > 0 ? dayEvents : [];
-  };
-
-  // 보이지 않게 렌더 → 즉시(자동) 스크롤 → 보이기
   useLayoutEffect(() => {
-    const idx = differenceInMonths(startOfMonth(new Date()), baseMonth);
-    scrollToMonthIndex(idx, false); // 애니메이션 없이 즉시 위치
-    setReady(true); // 이제 보여줌
+    handleToday();
+    setReady(true);
   }, []);
-
-  const handleDayClick = (day: Date) => {
-    setSelectedDateEvents(handleEvent(day));
-  };
 
   return (
     <div className='height-without-layout flex justify-center flex-col tablet:flex-row'>
@@ -122,18 +160,18 @@ const ScrollableCalendar = () => {
           </button>
           <button
             onClick={handleToday}
-            className='cursor-pointer inline-flex rounded-xl w-9 h-9 border border-text-b items-center justify-center'
+            className='cursor-pointer inline-flex text-main_b font-semibold text-base items-center justify-center'
           >
-            today
+            Today
           </button>
         </div>
         <div
-          className={`overflow-y-auto h-[calc(100vh-6.25rem-5.875rem-3.125rem)] ${ready ? '' : 'invisible'}`}
           ref={containerRef}
+          className={`overflow-y-auto h-[calc(100vh-6.25rem-5.875rem-3.125rem)] ${ready ? '' : 'invisible'}`}
           onScroll={handleScroll}
         >
           <DayPicker
-            month={baseMonth}
+            month={startOfMonth(new Date(startYear, 0, 1))}
             numberOfMonths={MONTH_TO_SHOW}
             classNames={{
               months: 'flex flex-col gap-2.5 items-center',
@@ -167,7 +205,6 @@ const ScrollableCalendar = () => {
           <div className='block overflow-hidden absolute bottom-[5.5rem] left-0 right-0 overflow-x-hidden tablet:hidden'>
             <MobileCard events={selectedDateEvents} />
           </div>
-
           <div className='hidden tablet:py-5 tablet:pr-5 tablet:flex tablet:justify-center tablet:items-center tablet:flex-col tablet:gap-5 tablet:static h-fit'>
             {selectedDateEvents.map((event) => (
               <Card key={event.id} item={event} />
