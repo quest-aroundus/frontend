@@ -61,7 +61,7 @@ const EventList = ({ apiParams, searchParams }: EventListProps) => {
 
 const SuspenseEventList = ({ apiParams, searchParams }: EventListProps) => {
   return (
-    <main className='relative flex flex-col gap-2.5 bg-white'>
+    <main className='relative flex flex-col gap-2.5 bg-white flex-grow flex-shrink-1'>
       <Suspense fallback={<EventListSkeleton />}>
         <EventList apiParams={apiParams} searchParams={searchParams} />
       </Suspense>
