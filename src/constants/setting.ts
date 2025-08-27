@@ -3,7 +3,7 @@ import type { ListSection } from '@/types/setting';
 export const settings: ListSection[] = [
   {
     title: '언어설정',
-    menu: [{ kind: 'route', text: '__LANGUAGE__', href: '/settings/language' }],
+    menu: [{ kind: 'action', text: '__LANGUAGE__', onClick: () => { } }],
   },
   {
     title: '앱정보',
@@ -35,6 +35,11 @@ export const settings: ListSection[] = [
       },
     ],
   },
+];
+
+export const languageOptions = [
+  { label: '한국어', value: 'ko' },
+  { label: 'English', value: 'en' },
 ];
 
 export const serviceTerms = `제1조 (목적)
