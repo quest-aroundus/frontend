@@ -4,11 +4,20 @@ import { Suspense, useEffect } from 'react';
 import EventFilter from './EventFilter';
 import { useInfiniteEvents } from '@/hooks/queries/useEvents';
 import { EventQueryParams, EventSearchParams } from '@/types/event';
-import { EventListItem } from './EventListItem';
+import { EventListItem, EventListItemSkeleton } from './EventListItem';
 import { useInView } from 'react-intersection-observer';
 
 const EventListSkeleton = () => {
-  return <div className='flex flex-col gap-4'>로딩중</div>;
+  return (
+    <div className='flex flex-col gap-4'>
+      <EventFilter isLoading />
+      <div className='flex flex-col gap-4'>
+        <EventListItemSkeleton />
+        <EventListItemSkeleton />
+        <EventListItemSkeleton />
+      </div>
+    </div>
+  );
 };
 
 interface EventListProps {
