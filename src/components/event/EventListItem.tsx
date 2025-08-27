@@ -48,12 +48,10 @@ const EventThumbnail = ({ event }: EventListItemProps) => {
           {startMonth === endMonth ? startMonth : `${startMonth}/${endMonth}`}
         </div>
       </div>
-      <Image
+      <img
         src={event.thumbnailUrl}
         alt={event.title}
-        fill
-        priority
-        className='object-cover'
+        className='w-full h-full object-cover flex-shrink-0'
       />
       <button
         onClick={handleClick}
