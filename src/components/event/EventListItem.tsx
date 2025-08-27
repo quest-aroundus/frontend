@@ -74,7 +74,9 @@ export const EventListItem = ({ event }: EventListItemProps) => {
 
       <div>
         <div className='text-2xl font-semibold'>{event.title}</div>
-        <div className='text-base text-text_b'>{event.description}</div>
+        <div className='text-base text-text_b line-clamp-2'>
+          {event.description}
+        </div>
       </div>
 
       <div className='flex gap-2'>
