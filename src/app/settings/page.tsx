@@ -25,7 +25,7 @@ const SettingPage = () => {
         ? { ...item, text: `Ver ${version}` }
         : item.text === '__LANGUAGE__'
           ? // TODO: i18n 적용
-            { ...item, text: '한국어', onClick: handleLanguageClick }
+          { ...item, text: '한국어', onClick: handleLanguageClick }
           : item
     ),
   }));
