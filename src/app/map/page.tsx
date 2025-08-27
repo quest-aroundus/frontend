@@ -5,7 +5,7 @@ import { Suspense } from 'react';
 import { useGeo } from '@/hooks/useGeo';
 import { useEvents } from '@/hooks/queries/useEvents';
 import MapSkeleton from '@/components/map/MapSkeleton';
-import { addMonths, format } from 'date-fns';
+import { format } from 'date-fns';
 
 const MapboxMap = dynamic(() => import('@/components/map/MapboxMap'));
 

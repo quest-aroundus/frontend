@@ -1,6 +1,12 @@
 import SuspenseEventDetail from '@/components/event/EventDetail';
 import type { Metadata } from 'next';
-import EventDetailHeader from '@/components/event/EventDetailHeader';
+import { eventOptions } from '@/hooks/queries/useEvent';
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query';
+import SuspenseEventDetailHeader from '@/components/event/EventDetailHeader';
 
 interface DetailPageProps {
   params: Promise<{ id: string }>;
@@ -32,15 +38,15 @@ export async function generateMetadata({
 }
 
 const DetailPage = async ({ params }: DetailPageProps) => {
+  const queryClient = new QueryClient();
   const { id } = await params;
+  await queryClient.prefetchQuery(eventOptions(id));
 
   return (
-    <>
-      <EventDetailHeader id={id} />
-      <main className='flex flex-col flex-1 max-w-vw overflow-x-hidden h-full'>
-        <SuspenseEventDetail id={id} />
-      </main>
-    </>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <SuspenseEventDetailHeader id={id} />
+      <SuspenseEventDetail id={id} />
+    </HydrationBoundary>
   );
 };
 

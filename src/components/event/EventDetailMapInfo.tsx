@@ -1,3 +1,5 @@
+'use client';
+
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl, { type PointLike } from 'mapbox-gl';
 import type { Event } from '@/types/event';

@@ -10,6 +10,7 @@ import {
 } from '@/types/event';
 import IconWrapper from '@/components/common/IconWrapper';
 import EventFilterDialog from './EventFilterDialog';
+import EventSearchDialog from './EventSearchDialog';
 import { useEffect, useRef, useState } from 'react';
 import { useFilterStore } from '@/stores/useFilterStore';
 import useCategories from '@/hooks/queries/useCategories';
@@ -22,11 +23,13 @@ const STYLES = {
     base: 'flex-1 h-[3.125rem] pl-1.5 py-2.5 rounded-[0.625rem] flex justify-between items-center gap-2 overflow-hidden cursor-pointer',
     empty: 'bg-bg text-main_b pr-2.5',
     filled: 'bg-main_b text-white',
+    loading: 'bg-bg cursor-not-allowed',
   },
   searchButton: {
     base: 'w-[3.125rem] h-[3.125rem] px-2.5 py-2.5 rounded-[0.625rem] flex justify-center items-center cursor-pointer',
     empty: 'bg-bg',
     filled: 'bg-main_b',
+    loading: 'bg-bg cursor-not-allowed',
   },
   filterTag:
     'min-w-fit h-8 px-2.5 border border-white bg-main_b rounded-[1.25rem] flex justify-center items-center text-xs whitespace-nowrap',
@@ -35,12 +38,15 @@ const STYLES = {
 
 // 필터 태그 컴포넌트
 interface FilterTagProps {
-  filter: FilterOption;
+  filter: FilterOption | string;
 }
 
 const FilterTag = ({ filter }: FilterTagProps) => (
-  <div key={filter.id} className={STYLES.filterTag}>
-    {filter.label}
+  <div
+    key={typeof filter === 'string' ? filter : filter.id}
+    className={STYLES.filterTag}
+  >
+    {typeof filter === 'string' ? filter : filter.label}
   </div>
 );
 
@@ -49,19 +55,29 @@ interface FilterButtonProps {
   selectedFilters: SelectedFilters;
   isFilterEmpty: boolean;
   onOpenFilter: () => void;
+  isLoading: boolean;
 }
 
 const FilterButton = ({
   selectedFilters,
   isFilterEmpty,
   onOpenFilter,
+  isLoading,
 }: FilterButtonProps) => {
   const buttonClass = `${STYLES.button.base} ${
-    isFilterEmpty ? STYLES.button.empty : STYLES.button.filled
+    isLoading
+      ? STYLES.button.loading
+      : isFilterEmpty
+        ? STYLES.button.empty
+        : STYLES.button.filled
   }`;
 
   return (
-    <button className={buttonClass} onClick={onOpenFilter}>
+    <button
+      className={buttonClass}
+      onClick={isLoading ? undefined : onOpenFilter}
+      disabled={isLoading}
+    >
       <IconWrapper size='sm'>
         <FilterIcon />
       </IconWrapper>
@@ -87,15 +103,28 @@ const FilterButton = ({
 interface SearchButtonProps {
   isFilterEmpty: boolean;
   onOpenFilter: () => void;
+  isLoading: boolean;
 }
 
-const SearchButton = ({ isFilterEmpty, onOpenFilter }: SearchButtonProps) => {
+const SearchButton = ({
+  isFilterEmpty,
+  onOpenFilter,
+  isLoading,
+}: SearchButtonProps) => {
   const buttonClass = `${STYLES.searchButton.base} ${
-    isFilterEmpty ? STYLES.searchButton.empty : STYLES.searchButton.filled
+    isLoading
+      ? STYLES.searchButton.loading
+      : isFilterEmpty
+        ? STYLES.searchButton.empty
+        : STYLES.searchButton.filled
   }`;
 
   return (
-    <button onClick={onOpenFilter} className={buttonClass}>
+    <button
+      onClick={isLoading ? undefined : onOpenFilter}
+      className={buttonClass}
+      disabled={isLoading}
+    >
       <IconWrapper size='md'>
         <MagnifyIcon />
       </IconWrapper>
@@ -104,13 +133,14 @@ const SearchButton = ({ isFilterEmpty, onOpenFilter }: SearchButtonProps) => {
 };
 
 interface EventFilterProps {
-  searchParams: EventSearchParams;
+  searchParams?: EventSearchParams;
+  isLoading?: boolean;
 }
 
 // 메인 컴포넌트
-const EventFilter = ({ searchParams }: EventFilterProps) => {
+const EventFilter = ({ searchParams, isLoading = false }: EventFilterProps) => {
   const [isFilterOpen, setIsFilterOpen] = useState<boolean | undefined>();
-  const [_isSearchOpen, setIsSearchOpen] = useState<boolean | undefined>();
+  const [isSearchOpen, setIsSearchOpen] = useState<boolean | undefined>();
   const { filters, hasActiveFilters, setFiltersWithSync, _hasHydrated } =
     useFilterStore();
   const { data: categories, isLoading: isCategoriesLoading } = useCategories();
@@ -133,7 +163,7 @@ const EventFilter = ({ searchParams }: EventFilterProps) => {
 
   useEffect(() => {
     if (isHydrated && !isCategoriesLoading && categories) {
-      setFiltersWithSync(searchParams, categories);
+      setFiltersWithSync(searchParams ?? {}, categories);
     }
   }, [
     searchParams,
@@ -175,15 +205,21 @@ const EventFilter = ({ searchParams }: EventFilterProps) => {
           selectedFilters={isHydrated ? filters : {}}
           isFilterEmpty={isFilterEmpty}
           onOpenFilter={handleOpenFilter}
+          isLoading={isLoading}
         />
         <SearchButton
           isFilterEmpty={isFilterEmpty}
           onOpenFilter={handleOpenSearch}
+          isLoading={isLoading}
         />
       </div>
       <EventFilterDialog
         isOpen={isFilterOpen}
         onClose={() => setIsFilterOpen(false)}
+      />
+      <EventSearchDialog
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
       />
     </>
   );

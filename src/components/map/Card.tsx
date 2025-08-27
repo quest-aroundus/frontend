@@ -20,7 +20,7 @@ const Card = ({ item }: CardProps) => {
 
   return (
     <Link
-      href={`/events/${item.id}`}
+      href={`/event/${item.id}`}
       className='cursor-pointer flex bg-white w-[22.25rem] rounded-[10px] p-4 shadow-[0px_0px_10px_0px_#00000040]'
     >
       <div className='mr-2.5 w-[calc(22.25rem-6.25rem-2rem)]'>

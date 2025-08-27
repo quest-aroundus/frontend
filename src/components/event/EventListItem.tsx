@@ -1,10 +1,36 @@
-import Image from 'next/image';
+'use client';
+
 import { Event } from '@/types/event';
 import { useMemo } from 'react';
 import LocationIcon from '@/app/_assets/LocationIcon';
 import LinkIcon from '@/app/_assets/LinkIcon';
 import EventInfoChip from '../common/EventInfoChip';
 import { copyToClipboard } from '@/utils/common';
+
+export const EventListItemSkeleton = () => {
+  return (
+    <div className='p-5 bg-white flex flex-col gap-[0.625rem]'>
+      <div className='flex items-center gap-2 w-full h-[9.375rem] relative rounded-[0.625rem] overflow-hidden bg-gray-200 animate-pulse'></div>
+
+      <div>
+        <div className='h-8 bg-gray-200 rounded animate-pulse mb-2'></div>
+        <div className='h-4 bg-gray-200 rounded animate-pulse mb-1'></div>
+        <div className='h-4 bg-gray-200 rounded animate-pulse w-3/4'></div>
+      </div>
+
+      {/* 카테고리 칩 스켈레톤 */}
+      <div className='flex gap-2'>
+        <div className='w-20 h-6 bg-gray-200 rounded-full animate-pulse'></div>
+        <div className='w-16 h-6 bg-gray-200 rounded-full animate-pulse'></div>
+      </div>
+
+      {/* 위치 정보 스켈레톤 */}
+      <div className='flex items-center gap-1'>
+        <div className='h-4 bg-gray-200 rounded animate-pulse w-full'></div>
+      </div>
+    </div>
+  );
+};
 
 interface EventListItemProps {
   event: Event;
@@ -48,12 +74,10 @@ const EventThumbnail = ({ event }: EventListItemProps) => {
           {startMonth === endMonth ? startMonth : `${startMonth}/${endMonth}`}
         </div>
       </div>
-      <Image
+      <img
         src={event.thumbnailUrl}
         alt={event.title}
-        fill
-        priority
-        className='object-cover'
+        className='w-full h-full object-cover flex-shrink-0'
       />
       <button
         onClick={handleClick}
@@ -76,7 +100,9 @@ export const EventListItem = ({ event }: EventListItemProps) => {
 
       <div>
         <div className='text-2xl font-semibold'>{event.title}</div>
-        <div className='text-base text-text_b'>{event.description}</div>
+        <div className='text-base text-text_b line-clamp-2'>
+          {event.description}
+        </div>
       </div>
 
       <div className='flex gap-2'>

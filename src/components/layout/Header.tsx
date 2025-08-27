@@ -11,7 +11,7 @@ interface HeaderButtonProps {
 const HeaderButton = ({ type }: HeaderButtonProps) => {
   const link = {
     alarm: {
-      href: '/alarm',
+      href: '/notification',
       icon: <AlarmIcon />,
     },
     settings: {

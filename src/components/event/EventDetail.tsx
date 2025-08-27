@@ -60,7 +60,9 @@ const EventDetail = ({ id }: { id: string }) => {
 const SuspenseEventDetail = ({ id }: { id: string }) => {
   return (
     <Suspense fallback={<EventDetailSkeleton />}>
-      <EventDetail id={id} />
+      <main className='flex flex-col flex-1 max-w-vw overflow-x-hidden h-full'>
+        <EventDetail id={id} />
+      </main>
     </Suspense>
   );
 };

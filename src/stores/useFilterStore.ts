@@ -26,6 +26,7 @@ interface FilterState {
   ) => void;
   resetFilters: () => void;
   setSearch: (_search: string) => void;
+  getSearch: () => string;
   setHasHydrated: (_hasHydrated: boolean) => void;
 
   // 유틸리티
@@ -91,6 +92,11 @@ export const useFilterStore = create<FilterState>()(
         set({
           _hasHydrated: hasHydrated,
         }),
+
+      getSearch: () => {
+        const { filters } = get();
+        return filters.search || '';
+      },
 
       // 선택된 필터 값 가져오기
       getSelectedValue: (type: FilterType) => {
