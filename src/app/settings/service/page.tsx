@@ -9,4 +9,5 @@ const ServiceTermPage = () => {
     </main>
   );
 };
+
 export default ServiceTermPage;

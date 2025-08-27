@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { Suspense, useMemo } from 'react';
+import { Suspense } from 'react';
 import { useGeo } from '@/hooks/useGeo';
 import { useEvents } from '@/hooks/queries/useEvents';
 import MapSkeleton from '@/components/map/MapSkeleton';

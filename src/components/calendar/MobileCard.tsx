@@ -1,6 +1,6 @@
 import type { Event } from '@/types/event';
 import Card from '../map/Card';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
 interface MobileCardProps {
   events: Event[];

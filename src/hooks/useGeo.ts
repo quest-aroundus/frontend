@@ -26,7 +26,7 @@ export const useGeo = () => {
             id: 'current',
           });
         },
-        (err) => {
+        () => {
           setLocation(TORONTO_CITY_HALL);
         }
       );
