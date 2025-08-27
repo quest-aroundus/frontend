@@ -10,6 +10,7 @@ import {
 } from '@/types/event';
 import IconWrapper from '@/components/common/IconWrapper';
 import EventFilterDialog from './EventFilterDialog';
+import EventSearchDialog from './EventSearchDialog';
 import { useEffect, useRef, useState } from 'react';
 import { useFilterStore } from '@/stores/useFilterStore';
 import useCategories from '@/hooks/queries/useCategories';
@@ -37,12 +38,15 @@ const STYLES = {
 
 // 필터 태그 컴포넌트
 interface FilterTagProps {
-  filter: FilterOption;
+  filter: FilterOption | string;
 }
 
 const FilterTag = ({ filter }: FilterTagProps) => (
-  <div key={filter.id} className={STYLES.filterTag}>
-    {filter.label}
+  <div
+    key={typeof filter === 'string' ? filter : filter.id}
+    className={STYLES.filterTag}
+  >
+    {typeof filter === 'string' ? filter : filter.label}
   </div>
 );
 
@@ -136,7 +140,7 @@ interface EventFilterProps {
 // 메인 컴포넌트
 const EventFilter = ({ searchParams, isLoading = false }: EventFilterProps) => {
   const [isFilterOpen, setIsFilterOpen] = useState<boolean | undefined>();
-  const [_isSearchOpen, setIsSearchOpen] = useState<boolean | undefined>();
+  const [isSearchOpen, setIsSearchOpen] = useState<boolean | undefined>();
   const { filters, hasActiveFilters, setFiltersWithSync, _hasHydrated } =
     useFilterStore();
   const { data: categories, isLoading: isCategoriesLoading } = useCategories();
@@ -212,6 +216,10 @@ const EventFilter = ({ searchParams, isLoading = false }: EventFilterProps) => {
       <EventFilterDialog
         isOpen={isFilterOpen}
         onClose={() => setIsFilterOpen(false)}
+      />
+      <EventSearchDialog
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
       />
     </>
   );
