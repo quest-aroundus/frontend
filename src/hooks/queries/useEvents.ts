@@ -5,25 +5,47 @@ import {
 } from '@tanstack/react-query';
 import type { Event, EventResponse, EventSearchParams } from '@/types/event';
 import type { ApiResponse } from '@/types/response';
+import MOCK_EVENT_DETAIL from '@/mocks/events';
 
 export const fetchEvents = async (
   params: EventSearchParams
 ): Promise<ApiResponse<EventResponse[]>> => {
-  const searchParams = new URLSearchParams();
+  // const searchParams = new URLSearchParams();
 
-  Object.entries(params).forEach(([key, value]) => {
-    if (value !== undefined && value !== null && value !== '') {
-      searchParams.append(key, String(value));
-    }
-  });
+  // Object.entries(params).forEach(([key, value]) => {
+  //   if (value !== undefined && value !== null && value !== '') {
+  //     searchParams.append(key, String(value));
+  //   }
+  // });
 
-  const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/event?${searchParams.toString()}`;
-  const response = await fetch(url);
+  // const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/event?${searchParams.toString()}`;
+  // const response = await fetch(url);
 
-  if (!response.ok) {
-    throw new Error('이벤트 데이터를 불러오는데 실패했습니다.');
-  }
-  return response.json();
+  // if (!response.ok) {
+  //   throw new Error('이벤트 데이터를 불러오는데 실패했습니다.');
+  // }
+  // return response.json();
+  const limit = params.limit ?? 10;
+  const offset = params.offset ?? 0;
+  const events = Object.values(MOCK_EVENT_DETAIL);
+  const sliced = events.slice(offset, offset + limit);
+  const eventLength = events.length
+
+  return new Promise((resolve) =>
+    setTimeout(
+      () =>
+        resolve({
+          data: sliced,
+          pagination: {
+            total: eventLength,
+            offset,
+            limit,
+            next_offset: offset + limit,
+          },
+        }),
+      200
+    )
+  );
 };
 
 export const transformEvent = (event: EventResponse): Event => {

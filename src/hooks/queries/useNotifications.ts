@@ -1,17 +1,21 @@
 import { Notification, NotificationGroup } from '@/types/notification';
 import { ApiResponse } from '@/types/response';
 import { useQuery } from '@tanstack/react-query';
+import MOCK_NOTIFICATIONS from '@/mocks/notifications';
 
 export const fetchNotifications = async (): Promise<
   ApiResponse<Notification[]>
 > => {
-  const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/notification`;
-  const response = await fetch(url);
+  // const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/notification`;
+  // const response = await fetch(url);
 
-  if (!response.ok) {
-    throw new Error('이벤트 데이터를 불러오는데 실패했습니다.');
-  }
-  return response.json();
+  // if (!response.ok) {
+  //   throw new Error('이벤트 데이터를 불러오는데 실패했습니다.');
+  // }
+  // return response.json();
+  return new Promise((resolve) =>
+    setTimeout(() => resolve({ data: MOCK_NOTIFICATIONS }), 200)
+  );
 };
 
 export const useNotifications = () => {
