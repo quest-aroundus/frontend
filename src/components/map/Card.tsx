@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useMemo } from 'react';
 import Image from 'next/image';
 import EventInfoChip from '../common/EventInfoChip';
 import LocationIcon from '@/app/_assets/LocationIcon';
 import type { Event } from '@/types/event';
 import Link from 'next/link';
+import { EVENT_PLACEHOLDERS } from '@/constants/events';
 
 interface CardProps {
   item: Event;
@@ -48,12 +49,12 @@ const Card = ({ item }: CardProps) => {
         </div>
       </div>
       <Image
-        src={item.thumbnailUrl || '/default-image.png'}
+        src={item.thumbnailUrl || EVENT_PLACEHOLDERS}
         alt={item.title}
         width={100}
         height={160}
         priority
-        className='w-[6.25rem] h-40 object-fill rounded-[0.625rem]'
+        className='w-[6.25rem] h-40 object-cover rounded-[0.625rem]'
       />
     </Link>
   );

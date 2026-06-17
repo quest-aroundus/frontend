@@ -6,6 +6,7 @@ import LocationIcon from '@/app/_assets/LocationIcon';
 import LinkIcon from '@/app/_assets/LinkIcon';
 import EventInfoChip from '../common/EventInfoChip';
 import { copyToClipboard } from '@/utils/common';
+import { EVENT_PLACEHOLDERS } from '@/constants/events';
 
 export const EventListItemSkeleton = () => {
   return (
@@ -75,7 +76,7 @@ const EventThumbnail = ({ event }: EventListItemProps) => {
         </div>
       </div>
       <img
-        src={event.thumbnailUrl}
+        src={event.thumbnailUrl || EVENT_PLACEHOLDERS}
         alt={event.title}
         className='w-full h-full object-cover flex-shrink-0'
       />
